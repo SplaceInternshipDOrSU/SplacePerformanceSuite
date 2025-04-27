@@ -38,8 +38,8 @@ const PersonalDetails = () => {
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const maxWidth = 250; // Maximum width for the resized image
-          const maxHeight = 250; // Maximum height for the resized image
+          const maxWidth = 800; // Maximum width for the resized image
+          const maxHeight = 800; // Maximum height for the resized image
 
           let width = img.width;
           let height = img.height;

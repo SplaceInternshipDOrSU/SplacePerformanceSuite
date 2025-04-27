@@ -11,8 +11,11 @@ const Home = () => {
 
 
   if(role === 'admin') return <Navigate to='admin/dashboard' replace/>
-  else if(role === 'seller') return <Navigate to='seller/dashboard' replace/>
-  else if(role === 'team-lead') return <Navigate to='user/dashboard' replace/>
+  else if(role === 'agent') return <Navigate to='agent/dashboard' replace/>
+  else if(role === 'team-lead') return <Navigate to='team-lead/dashboard' replace/>
+  else if(role === 'manager') return <Navigate to='manager/dashboard' replace/>
+  else if(role === 'coo') return <Navigate to='coo/dashboard' replace/>
+  else if(role === 'ceo') return <Navigate to='ceo/dashboard' replace/>
   else return <Navigate to='/login' replace/>
 }
 

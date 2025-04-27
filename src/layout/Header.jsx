@@ -61,7 +61,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
                 </div>
                 // <img className='h-[45px] w-[45px] rounded-full' src="/images/admin-img.png" alt="Default User" />
               )}
-              <div className="absolute bottom-1 -right-1 rounded-full border-1 border-accent bg-white">
+              <div className="absolute bottom-1 -right-1 rounded-full border-1 bg-white">
                 {
                   userInfo.role === "admin"? (
                     <div className="rounded-full p-[3px] ">
@@ -69,12 +69,12 @@ const Header = ({ showSidebar, setShowSidebar }) => {
                     </div>
                   
                   ):(
-                    <div className="rounded-full bg-accent">
+                    <div className="rounded-full">
                       {
                         userInfo?.status === "active" ? (
                           <BiSolidCheckCircle size={20} color='#05E04B' data-tooltip-id="my-tooltip" data-tooltip-content="Verified" />
                         ):(
-                          <FaAngleUp size={20} color='#FFFF' data-tooltip-id="my-tooltip" data-tooltip-content="Up for Review"/>
+                          <FaAngleUp size={20} color='#FF3366' data-tooltip-id="my-tooltip" data-tooltip-content="Account Up for Review"/>
                         )
                       }
                     </div>

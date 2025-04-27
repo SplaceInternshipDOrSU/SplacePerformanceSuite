@@ -76,7 +76,7 @@ const SellerRequest = () => {
                                        </td>
                                        <td scope='row' className='py-2 px-4 font-medium whitespace-nowrap'>
                                           <div className="flex justify-start items-center gap-4">
-                                               <Link to={`/admin/dashboard/seller/details/${u._id}`}  className='p-2 bg-accent rounded hover:shadow-md hover:shadow-accent/50 flex justify-center items-center gap-1'> view more<IoEyeSharp size={15} /></Link>
+                                               <Link to={`/admin/dashboard/user-details/${u._id}`}  className='p-2 bg-accent rounded hover:shadow-md hover:shadow-accent/50 flex justify-center items-center gap-1'> view more<IoEyeSharp size={15} /></Link>
                                                {/* <Link className='p-2 bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash/></Link> */}
                                           </div>
                                        </td>

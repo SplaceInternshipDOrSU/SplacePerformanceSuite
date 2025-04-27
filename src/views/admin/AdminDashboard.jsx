@@ -2,7 +2,7 @@ import React from 'react'
 
 const AdminDashboard = () => {
   return (
-    <div className='pb-5 w-full flex flex-wrap px-2' >
+    <div className='pb-5 w-full flex flex-wrap' >
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7">
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
             <div className="flex flex-col justify-start items-start text-[#d0d2d6]">

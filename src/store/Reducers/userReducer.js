@@ -27,6 +27,45 @@ export const get_users_request = createAsyncThunk(
   }
 );
 
+export const get_user = createAsyncThunk(
+  'user/get_user',
+  async (userId, { rejectWithValue, fulfillWithValue,getState }) => {
+    const {token} = getState().auth
+  const config = {
+    headers : {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+      try {
+          const { data } = await api.get(`/get-user/${userId}`,config)
+          console.log(data)
+          return fulfillWithValue(data)
+      } catch (error) {
+          return rejectWithValue(error.response.data)
+      }
+  }
+)
+
+export const user_status_update = createAsyncThunk(
+  'user/user_status_update',
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const {token} = getState().auth
+  const config = {
+    headers : {
+      Authorization: `Bearer ${token}`
+    }
+  }
+      try {
+          const { data } = await api.post(`/user-status-update`, info, config)
+          console.log(data)
+          return fulfillWithValue(data)
+      } catch (error) {
+          return rejectWithValue(error.response.data)
+      }
+  }
+)
+
 
 // SPLACE BS
 
@@ -232,6 +271,7 @@ export const userReducer = createSlice({
     traders: [],
 
 
+    user: [],
     users: [],
     totalUsers: [],
 
@@ -326,6 +366,12 @@ export const userReducer = createSlice({
       state.totalUsers = payload.payload.totalUsers;
       state.users = payload.payload.users;
       
+    });
+
+    builder.addCase(get_user.fulfilled, (state, payload) => {
+      state.loader = false;
+      state.user = payload.payload.user;
+    
     });
     
   },

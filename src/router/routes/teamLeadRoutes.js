@@ -8,14 +8,14 @@ const PendingUser = lazy(() =>
 );
 
 
-export const userRoutes = [
+export const teamLeadRoutes = [
   {
     path: "/user/account-pending",
     element: React.createElement(PendingUser),
     ability: "user",
   },
   {
-    path: "/user/dashboard/",
+    path: "/team-lead/dashboard/",
     element: React.createElement(UserDashboard),
     // element: <AdminDashboard />,
     role: "team-lead",
