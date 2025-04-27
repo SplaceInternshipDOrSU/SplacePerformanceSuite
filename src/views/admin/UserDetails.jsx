@@ -21,13 +21,12 @@ const UserDetails = () => {
 
 
     const submit = (e) => {
-        e.preventDefault()
+        e.preventDefault() 
         dispatch(user_status_update({
             userId,
             status
         }))
-
-        navigate('/admin/dashboard/user-requests')
+        navigate('/admin/dashboard/user-requests')        
         // navigate('/admin/dashboard/users')
     }
 
@@ -63,26 +62,29 @@ const UserDetails = () => {
 
 
   return (
-    <div className='pt-5'>
+    <div className='pt-5 '>
          <div className="w-full p-6 bg-[#283046] rounded-md">
             <h2 className='font-bold text-white text-[20px]'>Account Applicant Info</h2>
             <div className="w-full flex flex-wrap text-text_color flex-col lg:flex-row ">
-                <div className="lg:w-4/12 flex justify-start py-3">
-                    <div className="text-center group relative">
-                                <div className="w-full  overflow-hidden flex items-center justify-center mx-auto relative">
-                                    <img
-                                        src={user.profileImage}
-                                        alt="Profile Image"
-                                        className="w-full object-cover cursor-pointer"
-                                        onClick={() => openFullscreen(user.profileImage)}
-                                    />
-                                    {/* Hover Text */}
-                                <div onClick={() => openFullscreen(user.profileImage)} className=" absolute inset-0 bg-gray-900/75 bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <span className="text-white font-bold text-lg">Click to Expand</span>
-                                </div>
-                                    </div>
-                                 </div>
+            <div className="lg:w-4/12 flex justify-start py-3">
+                <div className="relative group w-full text-center">
+                    <div className="relative w-full h-[250px] overflow-hidden flex items-center justify-center mx-auto">
+                    <img
+                        src={user.profileImage}
+                        alt="Profile Image"
+                        className="w-full h-full object-contain cursor-pointer"
+                        onClick={() => openFullscreen(user.profileImage)}
+                    />
+                    <div
+                        onClick={() => openFullscreen(user.profileImage)}
+                        className="absolute inset-0 bg-gray-900/75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                        <span className="text-white font-bold text-lg">Click to Expand</span>
+                    </div>
+                    </div>
                 </div>
+                </div>
+
                 <div className="lg:w-8/12 text-slate-100">
                     <div className="px-0 md:px-5 py-2">
                         <div className="py-2 text-lg">
@@ -129,7 +131,7 @@ const UserDetails = () => {
               <div className="mt-5">
                 <h2 className='font-bold text-lg text-slate-100'>Applicant's Credentials</h2>
               </div>
-                <div className="w-full px-3 flex justify-start gap-2 mt-2">
+                <div className="w-full px-3 flex lg:flex-row flex-col justify-start  gap-2 mt-2">
                         {/* Fullscreen Modal */}
                         {fullscreenImage && (
                             <div
@@ -205,21 +207,32 @@ const UserDetails = () => {
                         </div>
                     </div>
 
-                    <Tooltip id="my-tooltip" className='absolute -top-[100px]'/>
 
                     <div className="">
                         <form action="" onSubmit={submit}>
                             <div className="flex gap-4 py-3">
-                                <select value={status} onChange={(e) => setStatus(e.target.value)}  className='px-4 py-1 focus:border-accent outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' typeof='file' name="" id="">
+                                <select 
+                                    value={status} 
+                                    onChange={(e) => setStatus(e.target.value)}  
+                                    className='px-4 py-1 focus:border-accent outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' 
+                                    name="" 
+                                    id=""
+                                >
                                     <option value="">--select status</option>
                                     <option value="active">ACTIVATE ACCOUNT</option>
                                     <option value="deactive">REJECT</option>
-                                    {/* <option value="deactive">REJEC</option> */}
                                 </select>
-                                <button className='bg-accent w-[300px] hover:shadow-accent/50 hover:shadow-md text-[#161D31] rounded-md px-7 py-2 font-semibold'>Submit</button>
+                                <button 
+                                    type="submit"
+                                    disabled={!status} 
+                                    className={`bg-accent w-[300px] hover:shadow-accent/50 hover:shadow-md text-[#161D31] rounded-md px-7 py-2 font-semibold ${!status ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                >
+                                    Submit
+                                </button>
                             </div>
                         </form>
                     </div>
+
          </div>
     </div>
   )

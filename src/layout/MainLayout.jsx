@@ -33,7 +33,7 @@ const MainLayout = () => {
     <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
     
     {/* Content Adjusts Based on Sidebar */}
-    <div className={`transition-all duration-300 pt-[95px] ${showSidebar ? 'ml-0 lg:ml-[245px] mr-6' : 'ml-0 lg:ml-[90px] mr-6'}`}>
+    <div className={`transition-all duration-300 pt-[95px] ${showSidebar ? 'ml-2 lg:ml-[245px] lg:mr-6 mr-2 ' : 'ml-2 lg:ml-[90px] lg:mr-6 mr-2'}`}>
       <Outlet />
     </div>
   </div>
