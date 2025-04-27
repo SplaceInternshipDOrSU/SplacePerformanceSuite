@@ -5,7 +5,7 @@ import {FiFacebook} from 'react-icons/fi'
 import {useDispatch, useSelector} from 'react-redux'
 import {PropagateLoader} from 'react-spinners'
 import { overRideStyle } from './../../utils/Utils';
-import {messageClear, seller_login} from '../../store/Reducers/authReducer'
+import {messageClear, user_login} from '../../store/Reducers/authReducer'
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'
 import { LuEye } from "react-icons/lu";
@@ -41,7 +41,7 @@ const Login = () => {
     }
     const submit = (e)=>{
         e.preventDefault()
-        dispatch(seller_login(state))
+        dispatch(user_login(state))
     
     }
 

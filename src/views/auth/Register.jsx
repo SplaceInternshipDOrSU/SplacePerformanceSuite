@@ -5,7 +5,7 @@ import {FiFacebook} from 'react-icons/fi'
 import {useDispatch, useSelector} from 'react-redux'
 import {PropagateLoader} from 'react-spinners'
 // import { overRideStyle } from './../../utils/Utils';
-import {messageClear, seller_register} from '../../store/Reducers/authReducer'
+import {messageClear, user_register} from '../../store/Reducers/authReducer'
 import { toast } from 'react-hot-toast';
 
 import Stepper from './../../Components/Form-Stepper/Stepper';
@@ -60,10 +60,9 @@ useEffect(()=>{
 // STEPPER FORM
 
 const steps = [
-    "personalDetails",
-    "associationDetails",
-    "credentialsUpload",
-    "requestComplete",
+    "personal Details",
+    "credentials Upload",
+    "request Complete",
    
 ];
 
@@ -73,12 +72,11 @@ const displayStep = (step)=>{
         case 1:
             return <PersonalDetails/>
         case 2:
-            return <AssociationDetails/>
-        case 3:
             return <Credentials/>
-        case 4:
+        case 3:
             return <Final/>
         default:
+            // return <Final/>
     }
 }
 
@@ -86,7 +84,7 @@ const handleClick = (direction)=>{
     let newStep = currentStep
     if(direction === "none"){
 
-        console.log("Asdasd")
+        console.log("none")
     }else{
         direction === "next"? newStep++ : newStep--;
 
@@ -100,32 +98,34 @@ const handleClick = (direction)=>{
 const submitData = () => {
     console.log('Submit button pressed!');
 
+    // Create a new FormData instance
     const formData = new FormData();
 
-    for (const key in userData) {
-        if (Object.prototype.hasOwnProperty.call(userData, key)) {
-            const value = userData[key];
-
-            if (Array.isArray(value)) {
-                value.forEach((file, index) => {
-                    if (file instanceof File) {
-                        formData.append(`${key}[${index}]`, file);
-                    }
-                });
-            } else if (value instanceof File) {
-                formData.append(key, value);
-            } else {
-                formData.append(key, value);
-            }
+    // Append userData properties to the FormData object
+    Object.entries(userData).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            // If the value is an array (e.g., multiple files)
+            value.forEach((file, index) => {
+                if (file instanceof File) {
+                    formData.append(`${key}[${index}]`, file); // Append each file
+                }
+            });
+        } else if (value instanceof File) {
+            // If it's a single file, append directly
+            formData.append(key, value);
+        } else {
+            // Append all other types (strings, numbers, etc.)
+            formData.append(key, value);
         }
-    }
+    });
 
-    // Debug: Log formData entries
-    for (let pair of formData.entries()) {
-        console.log(`${pair[0]}:`, pair[1]);
-    }
+    // Log the FormData for debugging
+    console.log("Form Data:", formData);
 
-    dispatch(seller_register(formData));
+    // Dispatch the updated formData to the Redux action
+    dispatch(user_register(formData));
+
+    // Clear userData after submission
     setUserData({});
 };
 
@@ -137,7 +137,7 @@ const submitData = () => {
       }}>
 
 <div className="absolute inset-0 bg-accent opacity-2"></div>
-        <div className="relative z-10 md:w-9/12 w-11/12 mx-auto shadow-xl rounded-2xl bg-white pt-10">
+        <div className="relative z-10 md:w-9/12 w-11/12 mx-auto shadow-xl rounded-2xl bg-white py-10">
             {/* { Stepper} */}
             <div className="px-6">
             <Stepper steps = {steps} currentStep={currentStep}/>

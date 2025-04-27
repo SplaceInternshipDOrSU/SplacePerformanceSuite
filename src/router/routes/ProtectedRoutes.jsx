@@ -14,9 +14,9 @@ const ProtectedRoutes = ({route,children}) => {
                           return <Suspense fallback={null}>{children}</Suspense>
                       } else {
                           if (userInfo.status === 'pending') {
-                              return <Navigate to='/seller/account-pending' replace />
+                              return <Navigate to='/user/account-pending' replace />
                           } else {
-                              return <Navigate to='/seller/account-deactivated' replace />
+                              return <Navigate to='/user/account-deactivated' replace />
                           }
                       }
                   } else {
@@ -24,7 +24,7 @@ const ProtectedRoutes = ({route,children}) => {
                           if (route.visibility.some(r => r === userInfo.status)) {
                               return <Suspense fallback={null}>{children}</Suspense>
                           } else {
-                              return <Navigate to='/seller/account-pending' replace />
+                              return <Navigate to='/user/account-pending' replace />
                           }
                       } else {
                           return <Suspense fallback={null}>{children}</Suspense>
@@ -35,7 +35,7 @@ const ProtectedRoutes = ({route,children}) => {
                   return <Navigate to='/unauthorized-access' replace />
               }
           } else {
-              if (route.ability === 'seller') {
+              if (route.ability === 'user') {
                   return <Suspense fallback={null}>{children}</Suspense>
               }
           }

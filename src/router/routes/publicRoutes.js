@@ -39,7 +39,7 @@ const publicRoutes = [
     element: React.createElement(UnAuthorizedAccess)
   },
   {
-    path: "/seller/account-deactivated",
+    path: "/user/account-deactivated",
     // element: <DeactivatedUser />,
     element: React.createElement(DeactivatedUser)
   },

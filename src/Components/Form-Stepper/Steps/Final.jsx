@@ -19,9 +19,9 @@ const Final = () => {
     loader ? 
     <div className="">
       
-      <div className="text-green-400 flex justify-center items-center">
+      <div className="text-accent flex justify-center items-center">
       <HashLoader
-        color="#22C55E"
+        color="#FF3366"
         cssOverride={{
           display: 'flex',
           justifyContent: 'center',
@@ -31,10 +31,10 @@ const Final = () => {
       />
       {/* SVG */}
       </div>
-      <div className="mt-3 text-xl font-semibold uppercase text-green-500">Submitting Your Request</div>
+      <div className="mt-3 text-xl font-semibold uppercase text-accent">Submitting Your Request</div>
       <div className="text-xs font-semibold uppercase text-gray-500">Please Wait for Conformation</div>
       <a className='' href="/login">
-        <button className='mt-10 h-10 px-5 text-primary font-bold transition-colors duration-150 border-2 border-gray-300 rounded-lg focus:shadow-outline hover:bg-green-500 hover:text-white'>Cancel</button>
+        <button className='mt-10 h-10 px-5 text-primary font-bold transition-colors duration-150 border-2 border-gray-300 rounded-lg focus:shadow-outline hover:bg-accent hover:text-white'>Cancel</button>
       </a>
     </div>
     :
@@ -48,25 +48,25 @@ const Final = () => {
         } */}
         {
           requestMessageError? <div className="">
-             <div className="text-green-400 flex justify-center items-center">
+             <div className="text-accent flex justify-center items-center">
       <FaCheckCircle color='' size={60} />
 
       </div>
-      <div className="mt-3 text-xl font-semibold uppercase text-green-500">{requestMessageError}</div>
+      <div className="mt-3 text-xl font-semibold uppercase text-accent">{requestMessageError}</div>
       {/* <div className="text-xs font-semibold uppercase text-gray-500">Please try again</div> */}
       <a className='' href="/login">
-        <button className='mt-10 h-10 px-5 text-primary font-bold transition-colors duration-150 border-2 border-gray-300 rounded-lg focus:shadow-outline hover:bg-green-500 hover:text-white'>Close</button>
+        <button className='mt-10 h-10 px-5 text-primary font-bold transition-colors duration-150 border-2 border-gray-300 rounded-lg focus:shadow-outline hover:bg-accent hover:text-white'>Close</button>
 
       </a>
           </div> : <div className="">
-          <div className="text-green-400 flex justify-center items-center">
+          <div className="text-accent flex justify-center items-center">
       <FaCheckCircle color='' size={60} />
 
       </div>
-      <div className="mt-3 text-xl font-semibold uppercase text-green-500">{requestMessage}</div>
+      <div className="mt-3 text-xl font-semibold uppercase text-accent">{requestMessage}</div>
       <div className="text-xs font-semibold uppercase text-gray-500">Your Request is up for review</div>
       <a className='' href="/login">
-        <button className='mt-10 h-10 px-5 text-primary font-bold transition-colors duration-150 border-2 border-gray-300 rounded-lg focus:shadow-outline hover:bg-green-500 hover:text-white'>Close</button>
+        <button className='mt-10 h-10 px-5 text-primary font-bold transition-colors duration-150 border-2 border-gray-300 rounded-lg focus:shadow-outline hover:bg-accent hover:text-white'>Close</button>
 
       </a>
           </div>

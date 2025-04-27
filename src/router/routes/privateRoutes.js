@@ -1,5 +1,4 @@
 import { adminRoutes } from "./adminRoutes";
-// import { sellerRoutes } from "./sellerRoutes";
+import { userRoutes } from "./userRoutes";
 
-// export const privateRoutes = [...adminRoutes, ...sellerRoutes];
-export const privateRoutes = [...adminRoutes];
+export const privateRoutes = [...adminRoutes, ...userRoutes];

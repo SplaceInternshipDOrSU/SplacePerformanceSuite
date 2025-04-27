@@ -33,6 +33,7 @@ const StepperControl = ({handleClick, currentStep, steps,submitData,userData}) =
             userData.phoneNumber &&
             userData.profileImage &&
             userData.sex &&
+            userData.role &&
             userData.birthDate &&
             userData.password &&
             userData.confirmPassword
@@ -85,43 +86,24 @@ const StepperControl = ({handleClick, currentStep, steps,submitData,userData}) =
               setIsToastShown(true);
             }
           }
-        }else if(currentStep === 2){
-      console.log("02")
-      if (
-        userData.associationName &&
-        userData.associationImage &&
-        userData.associationloc_street &&
-        userData.associationloc_barangay &&
-        userData.associationloc_province &&
-        userData.associationloc_municipalitycity
-
-      ) {
-        handleClick("next");
-    } else {
-      if (!isToastShown) {
-        toast.error("All fields are required for Step 2");
-        setIsToastShown(true);
-      }
-    }
-      
+        } else if(currentStep === 2){
+          if (userData.credential_img01 &&
+            userData.credential_img02 &&
+            userData.validId_img
+          ) {
+            submitData()
+            handleClick("next");
+        } else {
+          if (!isToastShown) {
+            toast.error("All fields are required for Step 3");
+            setIsToastShown(true);
+          }
+        }
+          
+         
+        
     }else if(currentStep === 3){
-      if (userData.credential_img01 &&
-        userData.credential_img02 &&
-        userData.validId_img
-      ) {
-        submitData()
-        handleClick("next");
-    } else {
-      if (!isToastShown) {
-        toast.error("All fields are required for Step 3");
-        setIsToastShown(true);
-      }
-    }
-      
-     
-    }
-    else if(currentStep === 4){
-      console.log("04")
+      console.log("03")
     }
   }
 
@@ -165,7 +147,7 @@ const StepperControl = ({handleClick, currentStep, steps,submitData,userData}) =
             <button
             onClick={formValidation}
             className={`bg-primary text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer border-2 border-primaryDark hover:border-primary hover:bg-primaryDark hover:text-white transition duration-200 ease-in-out`}>
-              {currentStep === steps.length -1 ? <p className='flex justify-center items-center gap-1'> <form onSubmit={submitData}><button type='submit'>confirm</button></form> <FaCheck /></p> : <p className='flex justify-center items-center gap-1'><button onClick={formValidation}>next</button><FaChevronRight /></p>}
+              {currentStep === steps.length - 1 ? <p className='flex justify-center items-center gap-1'> <form onSubmit={submitData}><button type='submit'>confirm</button></form> <FaCheck /></p> : <p className='flex justify-center items-center gap-1'><button onClick={formValidation}>next</button><FaChevronRight /></p>}
             </button>
             </div>
           }

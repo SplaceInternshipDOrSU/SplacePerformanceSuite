@@ -1,10 +1,10 @@
 import axios from "axios";
 // const local = "http://192.168.254.105:5000";
 const local = "http://localhost:5000";
-const production1 = "https://farm-future-backend.onrender.com";
+const production1 = "https://farm-future-backeasdasdasdasdasdnd.onrender.com";
 
 let api_url = ''
-let mode = 'pro'
+let mode = 'pro1'
 
 
 if(mode === 'pro'){

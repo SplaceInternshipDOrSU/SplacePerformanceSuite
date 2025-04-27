@@ -190,20 +190,48 @@ const PersonalDetails = () => {
                 </div>  
               </div>
   
-              <div className="w-ful">
-                <div className="font-bold h-3 text-gray-500 text-xs  uppercase">
-                  Email
+              <div className="w-full flex justify-between gap-2">
+                <div className="w-full">
+                    <div className="font-bold h-3 text-gray-500 text-xs  uppercase">
+                      Email
+                    </div>
+                    <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
+                      <input
+                        onChange={handleChange}
+                        value={userData["email"] || ""}
+                        name='email'
+                        placeholder='email'
+                        className='p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm'
+                        type="email" 
+                        autoComplete="off"/>
+                    </div>
                 </div>
-                <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
-                  <input
-                    onChange={handleChange}
-                    value={userData["email"] || ""}
-                    name='email'
-                    placeholder='email'
-                    className='p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm'
-                    type="email" 
-                    autoComplete="off"/>
+               
+                <div className="">
+                      <div className="font-bold h-3 text-gray-500 text-xs uppercase">
+                        Role
+                      </div>
+                      <div class="md:w-32">
+                        {/* <label for="sex" class="block text-sm font-medium text-gray-700">Sex</label> */}
+                        <select
+                         onChange={handleChange}
+                         value={userData["role"] || ""}
+                         name='role'
+                         id="role" 
+                         class="mt-2 block w-full p-1 px-2 h-[40px] bg-white border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accent focus:border-accent sm:text-sm">
+                          <option value="" disabled selected>Select Role</option>
+                          <option value="agent">Agent</option>
+                          <option value="manager">Manager</option>
+                          <option value="team-lead">Team Lead</option>
+                          <option value="coo">COO</option>
+                          <option value="ceo">CEO</option>
+
+                          {/* 'agent', 'manager', 'team-lead','coo','ceo' */}
+                          
+                        </select>
+                      </div>
                 </div>
+
               </div>
               <div className="w-full">
                 <div className="font-bold h-3 text-gray-500 text-xs uppercase">

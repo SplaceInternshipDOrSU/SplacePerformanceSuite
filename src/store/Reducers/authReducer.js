@@ -88,20 +88,7 @@ export const admin_changePassword = createAsyncThunk(
 );
 
 
-export const user_login = createAsyncThunk(
-  "auth/user_login",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
-    try {
-      const { data } = await axios.post(`${baseURL}/api/user-login`, info);
-      console.log("data");
-      console.log(data);
-      localStorage.setItem("accessToken", data.token);
-      return fulfillWithValue(data);
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+
 export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -247,12 +234,14 @@ export const logout = createAsyncThunk(
 );
 
 
-export const seller_register = createAsyncThunk(
-  "auth/seller_register",
+// USER ROUTES
+
+export const user_register = createAsyncThunk(
+  "auth/user_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
       console.log(info);
-      const { data } = await axios.post(`${baseURL}/api/seller-register`, info,
+      const { data } = await axios.post(`${baseURL}/api/user-register`, info,
         {
           withCredentials: true,
         }
@@ -268,6 +257,55 @@ export const seller_register = createAsyncThunk(
     }
   }
 );
+
+export const user_login = createAsyncThunk(
+  "auth/user_login",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await axios.post(`${baseURL}/api/user-login`, info);
+      // const { data } = await axios.post("/seller-login", info);
+      console.log("data");
+      console.log(data);
+      localStorage.setItem("accessToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
+
+
+
+// TO BE REMOVED
+export const seller_register = createAsyncThunk(
+  "auth/seller_register",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      console.log(info);
+      const { data } = await axios.post(`${baseURL}/api/user-register`, info,
+        {
+          withCredentials: true,
+        }
+      );
+      // const { data } = await axios.post("/seller-register", info);
+      // localStorage.setItem("accessToken", data.token);\
+      console.log("_--------------------------------- >")
+      console.log(data)
+      console.log("_--------------------------------- >")
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
+
+
 
 export const trader_register = createAsyncThunk(
   "auth/trader_register",
@@ -485,6 +523,9 @@ export const authReducer = createSlice({
       state.role = returnRole(payload.payload.token);
     });
 
+
+
+
     builder.addCase(change_password.pending, (state) => {
       state.loader = true;
     });
@@ -524,8 +565,27 @@ export const authReducer = createSlice({
       state.loader = false;
       state.successMessage = payload.payload.message;
       state.requestMessage = payload.payload.requestMessage;
-      // state.token = payload.payload.token;
-      // state.role = returnRole(payload.payload.token);
+     
+    });
+
+
+
+
+    
+    // SPLACE_INTERNSHIP
+    builder.addCase(user_register.pending, (state) => {
+      state.loader = true;
+    });
+    builder.addCase(user_register.rejected, (state, payload) => {
+      state.loader = false;
+      state.errorMessage = payload.payload.error;
+      state.requestMessageError = payload.payload.requestMessage;
+    });
+    builder.addCase(user_register.fulfilled, (state, payload) => {
+      state.loader = false;
+      state.successMessage = payload.payload.message;
+      state.requestMessage = payload.payload.requestMessage;
+     
     });
 
 
@@ -609,7 +669,28 @@ export const authReducer = createSlice({
           state.userInfo = "";
 
         });
+
+        // USER
+        builder.addCase(user_login.pending, (state) => {
+          state.loader = true;
+        });
+        builder.addCase(user_login.rejected, (state, payload) => {
+          state.loader = false;
+          state.errorMessage = payload.payload;
+        });
+        builder.addCase(user_login.fulfilled, (state, payload) => {
+          state.loader = false;
+          state.successMessage = payload.payload;
+          state.token = payload.payload.token;
+          state.role = returnRole(payload.payload.token);
+        });
   },
+
+
+
+
+  // USER
+  
 
   // builder.addCase(seller_register.rejected, (state, payload) => {
   //   state.loader = false;

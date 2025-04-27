@@ -4,10 +4,11 @@ import {
   AiOutlinePlus,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { FiUsers } from "react-icons/fi";
 import React from "react";
 import { BiCategory, BiLoaderCircle } from "react-icons/bi";
 import { BsChat } from "react-icons/bs";
-import { FiUsers } from "react-icons/fi";
+
 import { BsCurrencyDollar } from "react-icons/bs";
 import { CiChat1 } from "react-icons/ci";
 import { RiProductHuntLine,RiFunctionAddFill  } from "react-icons/ri";
@@ -32,6 +33,22 @@ export const allNav = [
     // icon: <AiFillDashboard />,
     role: "admin",
     path: "/admin/dashboard",
+  },
+  {
+    id: 2,
+    title: "User Requests",
+    icon: React.createElement(FiUsers),
+    // icon: <AiFillDashboard />,
+    role: "admin",
+    path: "/admin/user-requests",
+  },
+  {
+    id: 3,
+    title: "Dashboard",
+    icon: React.createElement(AiFillDashboard),
+    // icon: <AiFillDashboard />,
+    role: "team-lead",
+    path: "/user/dashboard",
   },
   // {
   //   id: 3,

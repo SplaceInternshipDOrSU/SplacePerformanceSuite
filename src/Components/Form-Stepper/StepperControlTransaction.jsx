@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from 'react'
+import React, {useEffect } from 'react'
 import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
@@ -14,18 +14,13 @@ const StepperControlTransaction = ({handleClick, currentStep, steps,submitData,u
   const formValidation =()=>{
     if(currentStep === 1){
       console.log("01")
-      // if(!userData.firstName || !userData.middleName || !userData.lastName || !userData.email || !userData.phoneNumber || !userData.profileImage || !userData.sex ||!userData.birthDate ){
-      //   toast.error("All Inputs are required")
-      //   return
-      // }else{
-      //   handleClick("next")
-      // }
       if (userData.firstName &&
         userData.lastName &&
         userData.email &&
         userData.phoneNumber &&
         userData.profileImage &&
         userData.sex &&
+        userData.role &&
         userData.birthDate) {
       handleClick("next");
     } else {
@@ -33,23 +28,6 @@ const StepperControlTransaction = ({handleClick, currentStep, steps,submitData,u
     }
      
     }else if(currentStep === 2){
-      console.log("02")
-      if (userData.firstName 
-        // &&
-        // userData.AssociationInfo.associationName &&
-        // userData.AssociationInfo.associationImage &&
-        // userData.AssociationInfo.associationloc_street &&
-        // userData.AssociationInfo.associationloc_barangay &&
-        // userData.AssociationInfo.associationloc_province &&
-        // userData.AssociationInfo.associationloc_municipalitycity
-
-      ) {
-        handleClick("next");
-    } else {
-      toast.error("All Inputs are required");
-    }
-      
-    }else if(currentStep === 3){
       if (userData.firstName 
         // &&
         // userData.AssociationInfo.associationName &&
@@ -68,8 +46,8 @@ const StepperControlTransaction = ({handleClick, currentStep, steps,submitData,u
       
      
     }
-    else if(currentStep === 4){
-      console.log("04")
+    else if(currentStep === 3){
+      console.log("03")
     }
   }
 

@@ -1,27 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
-export const categoryAdd = createAsyncThunk(
-  "category/categoryAdd",
-  async ({ name, image }, { rejectWithValue, fulfillWithValue, getState}) => {
+// SPLACE_BS
+export const get_users_request = createAsyncThunk(
+  "user/get_users_request",
+  async (
+    { parPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue, getState }
+  ) => {
     const {token} = getState().auth
-    const config = {
-      headers : {
-        Authorization: `Bearer ${token}`
-      }
+  const config = {
+    headers : {
+      Authorization: `Bearer ${token}`
     }
+  }
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("image", image);
-
-      const { data } = await api.post("/category-add", formData,config);
-      return fulfillWithValue(data);
+      const { data } = await api.get(`/request-users-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, config)
+      console.log(data)
+      return fulfillWithValue(data)
+ 
+     
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+// SPLACE_BS
+
+
+
+
+
+
 
 export const get_seller_request = createAsyncThunk(
     "seller/get_seller_request",
@@ -46,6 +56,37 @@ export const get_seller_request = createAsyncThunk(
       }
     }
   );
+
+
+
+
+
+
+
+
+
+  export const categoryAdd = createAsyncThunk(
+    "category/categoryAdd",
+    async ({ name, image }, { rejectWithValue, fulfillWithValue, getState}) => {
+      const {token} = getState().auth
+      const config = {
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      try {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("image", image);
+  
+        const { data } = await api.post("/category-add", formData,config);
+        return fulfillWithValue(data);
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  );
+
   export const get_seller = createAsyncThunk(
     'seller/get_seller',
     async (sellerId, { rejectWithValue, fulfillWithValue, getState}) => {
@@ -156,7 +197,7 @@ export const adminReducer_ = createSlice({
   
   },
   reducers: {
-    messageClear: (state, action) => {
+    messageClear: (state) => {
       state.errorMessage = "";
       state.successMessage = "";
     },

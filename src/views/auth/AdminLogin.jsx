@@ -63,7 +63,7 @@ const AdminLogin = () => {
                 <div className="bg-transparent p-4 rounded-md">
                     <div className="h-[70px] flex justify-center flex-col items-center">
                         <div className="w-[180px] h-[50px">
-                            <img className='w-full h-full' src="/images/Splace_LOGO.png" alt="Logo" />
+                            <img className='w-full h-full' src="/images/MainLogo.png" alt="Logo" />
                         </div>
                         <h2 className='font-bold text-[13px] text-slate-800 mt-2'>Welcome Back Admin!</h2>
                     </div>

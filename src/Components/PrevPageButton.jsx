@@ -9,7 +9,7 @@ const PrevPageButton = () => {
   };
 
   return (
-    <button className='hover:underline text-slate-200' onClick={handleBack} style={{ padding: '10px 20px', fontSize: '12px', cursor: 'pointer' }}>
+    <button className='hover:underline text-slate-400' onClick={handleBack} style={{ padding: '10px 20px', fontSize: '12px', cursor: 'pointer' }}>
       Go Back To Previous Page
     </button>
   );
