@@ -22,7 +22,7 @@ const Pagination = ({pageNumber, setPageNumber, totalItem, parPage, showItem}) =
     for(let i = startPage; i<endPage ; i++){
       btns.push(
         <li onClick={()=>setPageNumber(i)} className={`
-          ${pageNumber === i ? 'bg-accent/40 shadow-sm shadow-indigo-500/50 text-white' : 'bg-slate-700 hover:bg-accent/50 shadow-sm hover:shadow-indigo-500/50 hover:text-[#d0d2d6]'} w-[33px] h-[33px] rounded-md flex items-center justify-center cursor-pointer text-white`
+          ${pageNumber === i ? 'bg-accent shadow-sm shadow-indigo-500/50 text-white' : 'bg-slate-700 hover:bg-accent shadow-sm hover:shadow-indigo-500/50 hover:text-[#d0d2d6]'} w-[33px] h-[33px] rounded-md flex items-center justify-center cursor-pointer text-white`
           
         }>
           {i}

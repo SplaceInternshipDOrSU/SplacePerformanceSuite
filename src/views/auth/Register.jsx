@@ -10,13 +10,8 @@ import { toast } from 'react-hot-toast';
 
 import Stepper from './../../Components/Form-Stepper/Stepper';
 import StepperControl from '../../Components/Form-Stepper/StepperControl'
-
-// import LanguageDropdown from '../../../src/Components/LanguageModule/LanguageDropdown';
-
-// Multi Step Form
-// import Account from '../../Components/Form-Stepper/Steps/Account'
 import PersonalDetails from '../../Components/Form-Stepper/Steps/PersonalDetails'
-import AssociationDetails from '../../Components/Form-Stepper/Steps/AssociationDetails'
+import InformationReview from '../../Components/Form-Stepper/Steps/InformationReview'
 // import Details from '../../Components/Form-Stepper/Steps/Details'
 import Final from '../../Components/Form-Stepper/Steps/Final'
 
@@ -24,9 +19,6 @@ import { StepperContext } from '../../Components/context/StepperContext'
 import { StepperImagePrev } from '../../Components/context/StepperImagePrev'
 import Credentials from '../../Components/Form-Stepper/Steps/Credentials'
 
-// import LanguageDropdown from '../../../src/Components/LanguageModule/LanguageDropdown';
-// import { useLocation } from 'react-router-dom';
-// import { useTranslation } from 'react-i18next';
 
 
 
@@ -60,8 +52,8 @@ useEffect(()=>{
 // STEPPER FORM
 
 const steps = [
-    "personal Details",
-    "credentials Upload",
+    "User Details",
+    "Confirmation",
     "request Complete",
    
 ];
@@ -72,11 +64,11 @@ const displayStep = (step)=>{
         case 1:
             return <PersonalDetails/>
         case 2:
-            return <Credentials/>
+            return <InformationReview/>
         case 3:
             return <Final/>
-        default:
-            // return <Final/>
+        default: 
+        
     }
 }
 
@@ -97,6 +89,7 @@ const handleClick = (direction)=>{
 
 const submitData = () => {
     console.log('Submit button pressed!');
+    setCurrentStep(3)
 
     // Create a new FormData instance
     const formData = new FormData();
@@ -136,8 +129,8 @@ const submitData = () => {
         backgroundPosition: 'center',
       }}>
 
-<div className="absolute inset-0 bg-accent opacity-2"></div>
-        <div className="relative z-10 md:w-9/12 w-11/12 mx-auto shadow-xl rounded-2xl bg-white py-10">
+<div className="absolute inset-0 bg-gray-300 opacity-25"></div>
+        <div className="relative z-10 md:w-8/12 w-11/12  mx-auto shadow-xl rounded-2xl bg-white py-2">
             {/* { Stepper} */}
             <div className="px-6">
             <Stepper steps = {steps} currentStep={currentStep}/>

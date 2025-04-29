@@ -1,13 +1,27 @@
 import React, { lazy } from "react";
 const AdminDashboard = lazy(() => import("../../views/admin/AdminDashboard"));
 const UserRequests = lazy(() => import("../../views/admin/UserRequests"));
-const UserDetails = lazy(() => import("../../views/admin/UserDetails.jsx"));
+const UserRoles = lazy(() => import("../../views/admin/UserRoles.jsx"));
+const UserCategories = lazy(() => import("../../views/admin/UserCategories"));
+const UserDetails = lazy(() => import("../../views/admin/UserDetails"));
 
 
 export const adminRoutes = [
   {
     path: "admin/dashboard/",
     element: React.createElement(AdminDashboard),
+    ability: "admin",
+    role: "admin",
+  },
+  {
+    path: "admin/user-roles",
+    element: React.createElement(UserRoles),
+    ability: "admin",
+    role: "admin",
+  },
+  {
+    path: "admin/user-categories",
+    element: React.createElement(UserCategories),
     ability: "admin",
     role: "admin",
   },

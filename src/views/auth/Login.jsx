@@ -89,7 +89,7 @@ const Login = () => {
                           <button
                               type="button"
                                onClick={() => setShowPassword(!showPassword)}
-                               className="ml-2 text-gray-200 hover:text-gray-100 pr-2 absolute right-2 top-6 bottom-0"
+                               className="ml-2 text-gray-600 hover:text-gray-500 pr-2 absolute right-2 top-6 bottom-0"
                           >
                             {showPassword ? <LuEye  size={19} /> : <LuEyeClosed size={16} />}
                             {/* {showPassword ? <LuEyeClosed  size={16} /> : <LuEye size={16} />} */}

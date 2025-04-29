@@ -2,93 +2,94 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StepperContext } from '../../context/StepperContext';
 import { IoMdImages } from "react-icons/io";
 import { FadeLoader } from 'react-spinners';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import {requestMessageClear} from '../../../store/Reducers/authReducer'
+// import { useTranslation } from 'react-i18next';
 import { LuEye } from "react-icons/lu";
-import { LuEyeClosed } from "react-icons/lu";
+import { LuEyeClosed } from "react-icons/lu"
 
 
-const PersonalDetailsTrader = () => {
-  const [imagePreview, setImagePreview] = useState();
+const PersonalDetails = () => {
+  // const [imagePreview, setImagePreview] = useState();
   const { userData, setUserData } = useContext(StepperContext);
   const dispatch = useDispatch()
 
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
+    useEffect(()=>{
+      dispatch(requestMessageClear())  
+  }, [])
 
-  useEffect(()=>{
-    dispatch(requestMessageClear())  
-}, [])
-
-  const { loader } = useSelector((state) => state.auth);
+    // const {t} = useTranslation()
+  // const { loader } = useSelector((state) => state.auth);
 
   // Function to resize and handle image selection
-  const profileImageHandler = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
+  // const profileImageHandler = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
 
-      reader.onloadend = () => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const maxWidth = 250; // Maximum width for the resized image
-          const maxHeight = 250; // Maximum height for the resized image
+  //     reader.onloadend = () => {
+  //       const img = new Image();
+  //       img.onload = () => {
+  //         const canvas = document.createElement('canvas');
+  //         const maxWidth = 800; // Maximum width for the resized image
+  //         const maxHeight = 800; // Maximum height for the resized image
 
-          let width = img.width;
-          let height = img.height;
+  //         let width = img.width;
+  //         let height = img.height;
 
-          // Calculate the new dimensions while maintaining the aspect ratio
-          if (width > height) {
-            if (width > maxWidth) {
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
-            }
-          } else {
-            if (height > maxHeight) {
-              width = Math.round((width * maxHeight) / height);
-              height = maxHeight;
-            }
-          }
+  //         // Calculate the new dimensions while maintaining the aspect ratio
+  //         if (width > height) {
+  //           if (width > maxWidth) {
+  //             height = Math.round((height * maxWidth) / width);
+  //             width = maxWidth;
+  //           }
+  //         } else {
+  //           if (height > maxHeight) {
+  //             width = Math.round((width * maxHeight) / height);
+  //             height = maxHeight;
+  //           }
+  //         }
 
-          // Set canvas dimensions to the new size
-          canvas.width = width;
-          canvas.height = height;
+  //         // Set canvas dimensions to the new size
+  //         canvas.width = width;
+  //         canvas.height = height;
 
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
+  //         const ctx = canvas.getContext('2d');
+  //         ctx.drawImage(img, 0, 0, width, height);
 
-          // Convert the canvas back to a base64 string or blob
-          canvas.toBlob(
-            (blob) => {
-              const resizedFile = new File([blob], file.name, {
-                type: file.type,
-                lastModified: Date.now(),
-              });
+  //         // Convert the canvas back to a base64 string or blob
+  //         canvas.toBlob(
+  //           (blob) => {
+  //             const resizedFile = new File([blob], file.name, {
+  //               type: file.type,
+  //               lastModified: Date.now(),
+  //             });
 
-              // Update the userData with the resized image
-              setUserData({ ...userData, profileImage: resizedFile });
+  //             // Update the userData with the resized image
+  //             setUserData({ ...userData, profileImage: resizedFile });
 
-              // Generate a preview for the UI
-              setImagePreview(URL.createObjectURL(resizedFile));
-            },
-            file.type,
-            0.9 // Image quality (90%)
-          );
-        };
+  //             // Generate a preview for the UI
+  //             setImagePreview(URL.createObjectURL(resizedFile));
+  //           },
+  //           file.type,
+  //           0.9 // Image quality (90%)
+  //         );
+  //       };
 
-        img.src = reader.result;
-      };
+  //       img.src = reader.result;
+  //     };
 
-      reader.readAsDataURL(file);
-    }
-  };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col w-full">
@@ -190,86 +191,80 @@ const PersonalDetailsTrader = () => {
                 </div>  
               </div>
   
-              <div className="w-ful">
-                <div className="font-bold h-3 text-gray-500 text-xs  uppercase">
-                  Email
+              <div className="w-full flex justify-between gap-2">
+                <div className="w-full">
+                    <div className="font-bold h-3 text-gray-500 text-xs  uppercase">
+                      Email
+                    </div>
+                    <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
+                      <input
+                        onChange={handleChange}
+                        value={userData["email"] || ""}
+                        name='email'
+                        placeholder='email'
+                        className='p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm'
+                        type="email" 
+                        autoComplete="off"/>
+                    </div>
                 </div>
-                <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
-                  <input
-                    onChange={handleChange}
-                    value={userData["email"] || ""}
-                    name='email'
-                    placeholder='email'
-                    className='p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm'
-                    type="email" />
-                </div>
+               
+              
+
               </div>
               <div className="w-full">
-                  <div className="font-bold h-3 text-gray-500 text-xs uppercase">
-                    Password
-                  </div>
-                  <div className="bg-white my-2 p-1 flex border border-gray-200 rounded items-center">
-                    <input
-                      onChange={handleChange}
-                      value={userData["password"] || ""}
-                      name="password"
-                      placeholder="password"
-                      className="p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm"
-                      type={showPassword ? "text" : "password"}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="ml-2 text-gray-600 hover:text-gray-800 pr-2"
-                    >
-                      {showPassword ? <LuEye  size={16} /> : <LuEyeClosed size={16} />}
-                      {/* {showPassword ? <LuEyeClosed  size={16} /> : <LuEye size={16} />} */}
-                    </button>
-                  </div>
-                </div>
-              <div className="w-full">
-                  <div className="font-bold h-3 text-gray-500 text-xs uppercase">
-                    Confirm Password
-                  </div>
-                  <div className="bg-white my-2 p-1 flex border border-gray-200 rounded items-center">
-                    <input
-                      onChange={handleChange}
-                      value={userData["confirmPassword"] || ""}
-                      name="confirmPassword"
-                      placeholder="confirm Password"
-                      className="p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm"
-                      type={showConfirmPassword ? "text" : "password"}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="ml-2 text-gray-600 hover:text-gray-800 pr-2"
-                    >
-                      {showConfirmPassword ? <LuEye  size={16} /> : <LuEyeClosed size={16} />}
-                      {/* {showPassword ? <LuEyeClosed  size={16} /> : <LuEye size={16} />} */}
-                    </button>
-                  </div>
-                </div>
-              {/* <div className="w-ful">
-                <div className="font-bold h-3 text-gray-500 text-xs  uppercase">
+                <div className="font-bold h-3 text-gray-500 text-xs uppercase">
                   Password
                 </div>
-                <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
+                <div className="bg-white my-2 p-1 flex border border-gray-200 rounded items-center">
                   <input
+                    autoComplete="new-password"
                     onChange={handleChange}
                     value={userData["password"] || ""}
-                    name='password'
-                    placeholder='password'
-                    className='p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm'
-                    type="password" />
+                    name="password"
+                    placeholder="password"
+                    className="p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm"
+                    type={showPassword ? "text" : "password"}
+                    
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="ml-2 text-gray-600 hover:text-gray-800 pr-2"
+                  >
+                    {showPassword ? <LuEye  size={16} /> : <LuEyeClosed size={16} />}
+                    {/* {showPassword ? <LuEyeClosed  size={16} /> : <LuEye size={16} />} */}
+                  </button>
                 </div>
-              </div> */}
-
-          {/* Other fields like Lastname, Birthdate, Phone Number, etc. */}
-        </div>
+                </div>
+                    <div className="w-full">
+                      <div className="font-bold h-3 text-gray-500 text-xs uppercase">
+                          Confirm Password
+                      </div>
+                      <div className="bg-white my-2 p-1 flex border border-gray-200 rounded items-center">
+                        <input
+                       autoComplete="new-password"
+                           onChange={handleChange}
+                           value={userData["confirmPassword"] || ""}
+                          name="confirmPassword"
+                          placeholder="confirm Password"
+                          className="p-1 px-2 appearance-none outline-none w-full text-gray-800 text-sm"
+                          type={showConfirmPassword ? "text" : "password"}
+                          
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="ml-2 text-gray-600 hover:text-gray-800 pr-2"
+                        >
+                          {showConfirmPassword ? <LuEye  size={16} /> : <LuEyeClosed size={16} />}
+                          {/* {showPassword ? <LuEyeClosed  size={16} /> : <LuEye size={16} />} */}
+                        </button>
+                       </div>
+                    </div>
+                  </div>
 
         {/* Profile Image Upload Section */}
-        <div className="w-full flex flex-col justify-center items-center">
+        {/* <div className="w-full flex flex-col justify-center items-center">
           <div className="flex justify-center h-[250px] w-[250px] rounded-md">
             {userData.profileImage ? (
               <label htmlFor="img" className="h-full w-full relative cursor-pointer overflow-hidden rounded-md">
@@ -287,12 +282,12 @@ const PersonalDetailsTrader = () => {
             ) : (
               <label
                 htmlFor="img"
-                className="flex justify-center items-center flex-col h-[250px] w-[400px] cursor-pointer border-2 border-dashed hover:border-accent/40 border-text_color relative"
+                className="flex justify-center items-center flex-col h-[270px] w-full cursor-pointer border-2 border-dashed hover:border-accent/40 border-text_color relative rounded-2xl"
               >
                 <span>
                   <IoMdImages size="40px" color="#53596B" />
                 </span>
-                <span className="text-slate-500">Upload Profile</span>
+                <span className="text-slate-500">Upload Personal Image</span>
                 {loader && (
                   <div className="bg-slate-500 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
                     <FadeLoader />
@@ -308,10 +303,10 @@ const PersonalDetailsTrader = () => {
               className="hidden w-full h-full object-cover"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default PersonalDetailsTrader;
+export default PersonalDetails;

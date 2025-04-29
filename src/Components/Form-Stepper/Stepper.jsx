@@ -71,16 +71,17 @@ const Stepper = ({ steps, currentStep }) => {
     >
       <div className="relative flex flex-col items-center text-teal-600 ">
         <div
-          className={`rounded-full transition duration-500 ease-in-out border-2 border-gray-300 h-6 w-6 flex items-center justify-center text-center ${
+          className={`rounded-full transition duration-500 ease-in-out border-2 border-gray-300 h-[31px] w-[31px] flex items-center justify-center text-center ${
             step.selected ? " bg-primary text-white font-bold border border-primary" : " "
           }`}
         >
           {step.completed ? (
             <span className="text-white font-bold text-xl flex justify-center items-center text-[10px]">
-              <FaCheck color="#fff" size={10} />
+              {/* <FaCheck color="#fff" size={10} /> */}
+              <img className="h-[16px]" src="/images/Splace Logo-W.png" alt="" />
             </span>
           ) : (
-            <p className="text-[10px]">{index + 1}</p>
+            <p className="text-[10px]">{index + 1}</p>  
           )}
         </div>
         {!isMobile && (

@@ -6,6 +6,7 @@ import {
 } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
 import React from "react";
+import { TbCategoryFilled } from "react-icons/tb";
 import { BiCategory, BiLoaderCircle } from "react-icons/bi";
 import { BsChat } from "react-icons/bs";
 
@@ -33,6 +34,22 @@ export const allNav = [
     // icon: <AiFillDashboard />,
     role: "admin",
     path: "/admin/dashboard",
+  },
+  {
+    id: 2,
+    title: "User Role",
+    icon: React.createElement(FiUsers),
+    // icon: <AiFillDashboard />,
+    role: "admin",
+    path: "/admin/user-roles",
+  },
+  {
+    id: 2,
+    title: "User Categories",
+    icon: React.createElement(TbCategoryFilled),
+    // icon: <AiFillDashboard />,
+    role: "admin",
+    path: "/admin/user-categories",
   },
   {
     id: 2,

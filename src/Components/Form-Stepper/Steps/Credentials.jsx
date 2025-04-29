@@ -80,20 +80,16 @@ const Credentials = () => {
             label="Registration Certificate"
             fileKey="validId_img"
           />
-          <ImageUpload
+          {/* <ImageUpload
             id="credential_img02"
             label="Applicant Valid ID"
             fileKey="credential_img02"
-          />
+          /> */}
         </div>
 
         {/* Second column */}
         <div className="w-full px-2 flex flex-col gap-2">
-          <ImageUpload
-            id="credential_img0"
-            label="Business Permit"
-            fileKey="credential_img01"
-          />
+          
           {/* <ImageUpload
             id="credential_img03"
             label="Applicant Valid ID 03"

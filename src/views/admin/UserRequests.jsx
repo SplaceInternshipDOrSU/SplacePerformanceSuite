@@ -90,12 +90,6 @@ const SellerRequest = () => {
                {
                 totalUsers > parPage && ( // Render only if totalSellers is greater than parPage
                     <div className="w-full flex justify-between mt-4 bottom-4 right-4 px-3">
-                    {/* <a
-                        href=""
-                        className="bg-primaryDark px-2 py-1 text-center text-[15px] rounded-md text-md font-semibold text-white border-2"
-                    >
-                        Add a new Seller
-                    </a> */}
                     <Pagination
                         pageNumber={currentPage}
                         setPageNumber={setCurrentPage}
@@ -106,21 +100,7 @@ const SellerRequest = () => {
                     </div>
                 )
                 }
-   
-              {/* {
-                totalSellers <= parPage ? "" :
-                <div className="w-full flex justify-between mt-4 bottom-4 right-4 px-3">
-                <a href="" className='bg-primaryDark px-2 py-1 text-center text-[15px] rounded-md text-md font-semibold text-white border-2'>Add a new Seller</a>
-                <Pagination
-                        pageNumber = {currentPage}
-                        setPageNumber = {setCurrentPage}
-                        totalItem = {totalSellers}
-                        parPage = {parPage}
-                        showItem = {4}
-                    />
-                    </div>
-              }
-               */}
+
     </div>
 </div>
   )

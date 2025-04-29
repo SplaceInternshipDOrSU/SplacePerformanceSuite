@@ -113,6 +113,10 @@ const UserDetails = () => {
                                 <h2 className='font-bold uppercase text-accent '>{user.role}</h2>
                             </div>
                             <div className="flex gap-2">
+                                <span>Category: </span>
+                                <h2 className='font-bold uppercase text-accent '>{user.category}</h2>
+                            </div>
+                            <div className="flex gap-2">
                                 <span>Status: </span>
                                 <span
                                     className={`font-semibold ${
@@ -128,9 +132,6 @@ const UserDetails = () => {
                 </div>
                
 
-              <div className="mt-5">
-                <h2 className='font-bold text-lg text-slate-100'>Applicant's Credentials</h2>
-              </div>
                 <div className="w-full px-3 flex lg:flex-row flex-col justify-start  gap-2 mt-2">
                         {/* Fullscreen Modal */}
                         {fullscreenImage && (
@@ -148,62 +149,7 @@ const UserDetails = () => {
                             </div>
                         )}
 
-                        {/* Thumbnails */}
-                        {user.credential_img01 && (
-                             <div className="text-center group relative">
-                             <div className="w-[250px] h-[350px]  overflow-hidden flex items-center justify-center mx-auto relative">
-                                 <img
-                                     src={user.credential_img01}
-                                     alt="Credential 01"
-                                     className="w-full h-full object-cover cursor-pointer"
-                                     onClick={() => openFullscreen(user.credential_img01)}
-                                 />
-                                 {/* Hover Text */}
-                             <div onClick={() => openFullscreen(user.credential_img01)} className=" absolute inset-0 bg-gray-900/75 bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                 <span className="text-white font-bold text-lg">Click to Expand</span>
-                             </div>
-                                 </div>
-                                 <p className="mt-1 text-base text-slate-200 font-bold">Cred 01</p>
-                         </div>
-                    
-                        )}
-
-                        {user.credential_img02 && (
-                             <div className="text-center group relative">
-                             <div className="w-[250px] h-[350px]  overflow-hidden flex items-center justify-center mx-auto relative">
-                                 <img
-                                     src={user.credential_img02}
-                                     alt="Credential 02"
-                                     className="w-full h-full object-cover cursor-pointer"
-                                     onClick={() => openFullscreen(user.credential_img02)}
-                                 />
-                                 {/* Hover Text */}
-                             <div onClick={() => openFullscreen(user.credential_img02)} className=" absolute inset-0 bg-gray-900/75 bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                 <span className="text-white font-bold text-lg">Click to Expand</span>
-                             </div>
-                                 </div>
-                                 <p className="mt-1 text-base text-slate-200 font-bold">Cred 02</p>
-                         </div>
-                        )}
-
-                        {user.validId_img && (
-                         <div className="text-center group relative">
-                            <div className="w-[250px] h-[350px]  overflow-hidden flex items-center justify-center mx-auto relative">
-                                <img
-                                    src={user.validId_img}
-                                    alt="Profile Image"
-                                    className="w-full h-full object-cover cursor-pointer"
-                                    onClick={() => openFullscreen(user.validId_img)}
-                                />
-                                {/* Hover Text */}
-                            <div onClick={() => openFullscreen(user.validId_img)} className=" absolute inset-0 bg-gray-900/75 bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span className="text-white font-bold text-lg">Click to Expand</span>
-                            </div>
-                                </div>
-                                <p className="mt-1 text-base text-slate-200 font-bold">Valid Id</p>
-                        </div>
-                       
-                        )}
+                      
                         </div>
                     </div>
 

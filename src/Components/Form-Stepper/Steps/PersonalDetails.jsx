@@ -2,16 +2,21 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StepperContext } from '../../context/StepperContext';
 import { IoMdImages } from "react-icons/io";
 import { FadeLoader } from 'react-spinners';
+// import { useDispatch} from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
-import {requestMessageClear} from '../../../store/Reducers/authReducer'
 // import { useTranslation } from 'react-i18next';
+import {requestMessageClear} from '../../../store/Reducers/authReducer'
+import {categories_get, roles_get} from '../../../store/Reducers/adminReducer'
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu"
+import { IoIosCloseCircle } from "react-icons/io";
 
 
 const PersonalDetails = () => {
   const [imagePreview, setImagePreview] = useState();
   const { userData, setUserData } = useContext(StepperContext);
+  const [showRole, setShowRole] = useState(false)
+  const [showCategory, setShowCategory] = useState(false)
   const dispatch = useDispatch()
 
     const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +32,70 @@ const PersonalDetails = () => {
 
     // const {t} = useTranslation()
   const { loader } = useSelector((state) => state.auth);
+  const { roles, categories } = useSelector((state) => state.admin);
+
+
+
+  const [allRole, setAllRole] = useState([])
+  const [allCategories, setAllCategories] = useState([])
+    const [searchValue, setSearchValue] = useState('')
+
+
+
+  useEffect(() => {
+    dispatch(roles_get({
+        searchValue: '',
+        parPage: '',
+        page: ""
+    }))
+    dispatch(categories_get({
+      searchValue: '',
+      parPage: '',
+      page: ""
+  }))
+}, [dispatch])
+
+
+
+
+
+
+useEffect(() => {
+  setAllRole(roles)
+}, [roles])
+
+useEffect(() => {
+  setAllCategories(categories)
+}, [categories])
+
+const roleSearch = (e) => {
+  const value = e.target.value
+  setSearchValue(value)
+  if (value) {
+      let srchValue = allRole.filter(c => c.name.toLowerCase().includes(value.toLowerCase()))
+      setAllRole(srchValue)
+  } else {
+      setAllRole(roles)
+  }
+}
+useEffect(() => {
+  setAllRole(roles)
+}, [roles])
+const categorySearch = (e) => {
+  const value = e.target.value
+  setSearchValue(value)
+  if (value) {
+      let srchValue = allCategories.filter(c => c.name.toLowerCase().includes(value.toLowerCase()))
+      setAllCategories(srchValue)
+  } else {
+      setAllCategories(categories)
+  }
+}
+
+
+
+
+
 
   // Function to resize and handle image selection
   const profileImageHandler = (e) => {
@@ -92,8 +161,8 @@ const PersonalDetails = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="w-full lg:grid lg:grid-cols-2 flex flex-col gap-6">
-        <div>
+      <div className="w-full lg:grid lg:grid-cols-2 flex flex-col gap-6  lg:items-end">
+        <div className=''>
           {/* Other input fields remain unchanged */}
           <div className="w-full flex flex-col lg:flex-row justify-between gap-2">
             <div className="w-full">
@@ -207,30 +276,7 @@ const PersonalDetails = () => {
                     </div>
                 </div>
                
-                <div className="">
-                      <div className="font-bold h-3 text-gray-500 text-xs uppercase">
-                        Role
-                      </div>
-                      <div class="md:w-32">
-                        {/* <label for="sex" class="block text-sm font-medium text-gray-700">Sex</label> */}
-                        <select
-                         onChange={handleChange}
-                         value={userData["role"] || ""}
-                         name='role'
-                         id="role" 
-                         class="mt-2 block w-full p-1 px-2 h-[40px] bg-white border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accent focus:border-accent sm:text-sm">
-                          <option value="" disabled selected>Select Role</option>
-                          <option value="agent">Agent</option>
-                          <option value="manager">Manager</option>
-                          <option value="team-lead">Team Lead</option>
-                          <option value="coo">COO</option>
-                          <option value="ceo">CEO</option>
-
-                          {/* 'agent', 'manager', 'team-lead','coo','ceo' */}
-                          
-                        </select>
-                      </div>
-                </div>
+              
 
               </div>
               <div className="w-full">
@@ -259,10 +305,10 @@ const PersonalDetails = () => {
                 </div>
                 </div>
                     <div className="w-full">
-                      <div className="font-bold h-3 text-gray-500 text-xs uppercase">
+                      <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">
                           Confirm Password
                       </div>
-                      <div className="bg-white my-2 p-1 flex border border-gray-200 rounded items-center">
+                      <div className="bg-white  p-1 flex border border-gray-200 rounded items-center">
                         <input
                        autoComplete="new-password"
                            onChange={handleChange}
@@ -286,15 +332,18 @@ const PersonalDetails = () => {
                   </div>
 
         {/* Profile Image Upload Section */}
-        <div className="w-full flex flex-col justify-center items-center">
-          <div className="flex justify-center h-[250px] w-[250px] rounded-md">
+        <div className="w-full flex flex-col justify-between items-center h-full ">
+          <div className="flex justify-center h-[230px] w-[230px] rounded-full">
             {userData.profileImage ? (
-              <label htmlFor="img" className="h-full w-full relative cursor-pointer overflow-hidden rounded-md">
+              <label htmlFor="img" className="h-full w-full relative cursor-pointer overflow-hidden rounded-md ">
                 <img
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover rounded-full border-accent border-6"
                   src={imagePreview || URL.createObjectURL(userData.profileImage)}
                   alt="Profile"
                 />
+                <div className="absolute bottom-2 right-4 h-[80px] rounded-full border-6 bg-white border-accent p-3">
+                  <img className='h-full w-full' src="/images/Splace Logo.png" alt="" />
+                </div>
                 {loader && (
                   <div className="bg-slate-500 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
                     <FadeLoader />
@@ -304,12 +353,15 @@ const PersonalDetails = () => {
             ) : (
               <label
                 htmlFor="img"
-                className="flex justify-center items-center flex-col h-[270px] w-full cursor-pointer border-2 border-dashed hover:border-accent/40 border-text_color relative rounded-2xl"
+                className="flex justify-center items-center flex-col h-[230px] w-full cursor-pointer border-3 border-dashed hover:border-accent border-text_color relative rounded-full "
               >
                 <span>
-                  <IoMdImages size="40px" color="#53596B" />
+                  <IoMdImages size="30px" color="#53596B" />
                 </span>
-                <span className="text-slate-500">Upload Personal Image</span>
+                <span className="text-slate-500 text-[13px]">Upload Personal Image</span>
+                {/* <div className="absolute bottom-2 right-4 h-[80px] rounded-full border-6 bg-white border-accent p-3">
+                  <img className='h-full w-full' src="/images/Splace Logo.png" alt="" />
+                </div> */}
                 {loader && (
                   <div className="bg-slate-500 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
                     <FadeLoader />
@@ -322,10 +374,124 @@ const PersonalDetails = () => {
               type="file"
               name="profileImage"
               onChange={profileImageHandler}
-              className="hidden w-full h-full object-cover"
+              className="hidden w-full h-full object-cover "
             />
           </div>
+          <div className="mt-7  w-full ">
+            <div className="text-end flex justify-end items-center gap-1 py-[2px]">
+              <img className='h-[20px]' src="/images/Splace Logo.png" alt="" />
+              <h2 className='font-bold text-accent'> Job Classification</h2>
+            </div>
+              <div className="w-full border-accent border-t-2 pt-3">
+                <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">SELECT EMPLOYEE ROLE</div>
+                
+                <input
+                  readOnly
+                  onClick={() => setShowRole(true)}
+                  value={userData["role"] || ""}
+                  className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
+                  type="text"
+                  placeholder="Listing Category"
+                  name="role"
+                  id="role"
+                />
+
+                {/* Modal */}
+                {showRole && (
+                  <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
+                    <div className="bg-white rounded-lg w-[400px] h-[300px] max-w-md p-4 shadow-xl text-slate-800">
+                      <div className="flex justify-between items-center mb-4">
+                        <h2 className="font-bold text-lg">Select Role</h2>
+                        <button onClick={() => setShowRole(false)} className=" text-xl"><IoIosCloseCircle size={24} /></button>
+                      </div>
+
+                      <input
+                        onChange={roleSearch}
+                        value={searchValue}
+                        className="mb-3 w-full px-4 py-1 border-b-2 border-slate-700 bg-transparent outline-none"
+                        type="text"
+                        placeholder="Search Role"
+                        name="role"
+                        id="role"
+                      />
+
+                      <div className="max-h-48 overflow-y-auto">
+                        {allRole.map((cat, index) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              setUserData({ ...userData, role: cat.name });
+                              setShowRole(false);
+                            }}
+                            className="cursor-pointer py-2 px-4 hover:bg-accent hover:text-slate-300 font-semibold rounded-md"
+                          >
+                            {cat.name}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="w-full pt-3">
+                <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">SELECT EMPLOYEE CATEGORY</div>
+                
+                <input
+                  readOnly
+                  onClick={() => setShowCategory(true)}
+                  value={userData["category"] || ""}
+                  className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
+                  type="text"
+                  placeholder="Listing Category"
+                  name="category"
+                  id="category"
+                />
+
+                {/* Modal */}
+                {showCategory && (
+                  <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
+                    <div className="bg-white rounded-lg w-[400px] h-[300px] max-w-md p-4 shadow-xl text-slate-800">
+                      <div className="flex justify-between items-center mb-4">
+                        <h2 className="font-bold text-lg">Select Category</h2>
+                        <button onClick={() => setShowCategory(false)} className=" text-xl"><IoIosCloseCircle size={24} /></button>
+                      </div>
+
+                      <input
+                        onChange={categorySearch}
+                        value={searchValue}
+                        className="mb-3 w-full px-4 py-1 border-b-2 border-slate-700 bg-transparent outline-none"
+                        type="text"
+                        placeholder="Search Role"
+                        name="category"
+                        id="category"
+                      />
+
+                      <div className="max-h-48 overflow-y-auto">
+                        {allCategories.map((cat, index) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              setUserData({ ...userData, category: cat.name });
+                              setShowCategory(false);
+                            }}
+                            className="cursor-pointer py-2 px-4 hover:bg-accent hover:text-slate-300 font-semibold rounded-md"
+                          >
+                            {cat.name}
+                          </div>
+                        ))}
+
+
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+        
         </div>
+
+       
       </div>
     </div>
   );
