@@ -59,8 +59,8 @@ const AdminLogin = () => {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}>
-            <div className="absolute inset-0 bg-gray-900 opacity-2"></div>
-            <div className="w-[400px] text-[#d0d2d6] p-2 shadow-xl rounded-md py-10 px-2 bg-white">
+            <div className="absolute inset-0 bg-gray-900 opacity-15"></div>
+            <div className="w-[400px] text-[#d0d2d6] p-2 shadow-xl rounded-md py-10 px-2 bg-white z-10">
                 <div className="bg-transparent p-4 rounded-md">
                     <div className="h-[70px] flex justify-center flex-col items-center">
                         <div className="w-[180px] h-[50px">
