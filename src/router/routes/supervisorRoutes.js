@@ -8,17 +8,18 @@ const PendingUser = lazy(() =>
 );
 
 
-export const agentRoutes = [
+export const supervisorRoutes = [
   {
-    path: "/user/account-pending",
+    path: "/supervisor/account-pending",
     element: React.createElement(PendingUser),
     ability: "user",
   },
   {
-    path: "/agent/dashboard/",
+    path: "/supervisor/dashboard/",
     element: React.createElement(UserDashboard),
     // element: <AdminDashboard />,
-    role: "agent",
+    // role: "agent",
+    category: "supervisor",
     status: "active",
   },
  

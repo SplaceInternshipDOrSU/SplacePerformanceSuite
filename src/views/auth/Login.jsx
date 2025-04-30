@@ -68,7 +68,7 @@ const Login = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}>
-        <div className="absolute inset-0 bg-accent opacity-2"></div>
+        <div className="absolute inset-0 bg-gray-600 opacity-13"></div>
         <div className="relative z-10 w-[350px] lg:w-[400px] bg-white rounded-lg text-[#d0d2d6] p-2 shadow-xl">
             <div className="p-4 ">
                 <h2 className='text-lg mb-1 text-center text-slate-800 font-semibold'>Welcome to <Link to={'/admin/login'} className='font-extrabold text-accent italic'>SplaceHR</Link></h2>
@@ -111,7 +111,7 @@ const Login = () => {
                     </button>
                     <div className="flex flex-col text-center justify-center text-xs mt-2 text-slate-800">
                         <p>No Account?</p>
-                        <Link to='/register' className='font-semibold text-[10px]'>Fill up an application</Link>
+                        <Link to='/register' className='font-semibold text-[10px] hover:underline hover:text-accent'>Fill up an application</Link>
                     </div>
                   
                 </form>

@@ -36,7 +36,7 @@ const Pagination = ({pageNumber, setPageNumber, totalItem, parPage, showItem}) =
   return(
     <ul className='flex gap-3'>
       {
-        pageNumber>1 && <li onClick={()=>setPageNumber(pageNumber - 1)} className='w-[33px] h-[33px] rounded-md flex justify-center items-center bg-slate-700 text-[#d0d2d6] cursor-pointer'>
+        pageNumber>1 && <li   key="prev" onClick={()=>setPageNumber(pageNumber - 1)} className='w-[33px] h-[33px] rounded-md flex justify-center items-center bg-slate-700 text-[#d0d2d6] cursor-pointer'>
           <BsChevronDoubleLeft/>
         </li>
       }
@@ -44,7 +44,7 @@ const Pagination = ({pageNumber, setPageNumber, totalItem, parPage, showItem}) =
         createBtn()
       }
         {
-        pageNumber < totalPage && <li onClick={()=>setPageNumber(pageNumber + 1)} className='w-[33px] h-[33px] rounded-md flex justify-center items-center bg-slate-700 text-[#d0d2d6] cursor-pointer'>
+        pageNumber < totalPage && <li  key="next" onClick={()=>setPageNumber(pageNumber + 1)} className='w-[33px] h-[33px] rounded-md flex justify-center items-center bg-slate-700 text-[#d0d2d6] cursor-pointer'>
           <BsChevronDoubleRight/>
         </li>
       }

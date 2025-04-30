@@ -4,11 +4,15 @@ import { Navigate } from 'react-router-dom'
 
 
 const ProtectedRoutes = ({route,children}) => {
-  const { role, userInfo } = useSelector(state => state.auth)
-  if (role) {
+  const { category, userInfo } = useSelector(state => state.auth)
+  if (category) {
       if (userInfo) {
-          if (route.role) {
-              if (userInfo.role === route.role) {
+          if (route.category) {
+            console.log(route.category)
+            console.log("route.category")
+            console.log(userInfo.category)
+            console.log("userInfo category")
+              if (userInfo.category === route.category) {
                   if (route.status) {
                       if (route.status === userInfo.status) {
                           return <Suspense fallback={null}>{children}</Suspense>

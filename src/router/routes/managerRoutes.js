@@ -18,7 +18,7 @@ export const managerRoutes = [
     path: "/manager/dashboard/",
     element: React.createElement(UserDashboard),
     // element: <AdminDashboard />,
-    role: "manager",
+    category: "manager",
     status: "active",
   },
  

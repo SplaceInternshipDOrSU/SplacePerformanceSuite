@@ -202,7 +202,7 @@ export const seller_login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async ({ navigate, role }, { rejectWithValue, fulfillWithValue, getState }) => {
+  async ({ navigate, category }, { rejectWithValue, fulfillWithValue, getState }) => {
     const { token } = getState().auth;
     const config = {
       headers: {
@@ -219,7 +219,7 @@ export const logout = createAsyncThunk(
 
       // Continue navigation after a short delay
       setTimeout(() => {
-        if (role === "admin") {
+        if (category === "admin") {
           navigate("/admin/login");
         } else {
           navigate("/login");
@@ -432,12 +432,15 @@ export const get_user_info = createAsyncThunk(
 
 
 console.log(config)
+console.log("config")
     // const token = localStorage.getItem("accessToken");
     if (!token) {
       return rejectWithValue("No token found. Please log in.");
     }
     try {
       const { data } = await axios.get(`${baseURL}/api/get-user`, config);
+      console.log("GET USER DATA")
+      console.log(data)
       // const { data } = await axios.get("/get-user", config);
       return fulfillWithValue(data);
     } catch (error) {
@@ -447,10 +450,11 @@ console.log(config)
 );
 
 
-const returnRole = (token) => {
-  console.log("RETURN ROLE")
+const returnCategory = (token) => {
+  console.log("RETURN CATEGORY");
+
   if (!token) {
-    console.log("RETURN ROLE NO ACTION")
+    console.log("NO TOKEN PROVIDED");
     return ""; // No token, return an empty role
   }
 
@@ -462,7 +466,10 @@ const returnRole = (token) => {
       localStorage.removeItem("accessToken");
       return ""; // Token expired, clear the role
     } else {
-      return decodeToken.role;
+      // Normalize: lowercase + remove spaces
+      const rawCategory = decodeToken.category || "";
+      const normalizedCategory = rawCategory.toLowerCase().replace(/\s+/g, "");
+      return normalizedCategory;
     }
   } catch (error) {
     console.error("Error decoding token:", error);
@@ -481,7 +488,7 @@ export const authReducer = createSlice({
     userInfo: "",
     requestMessage: "",
     requestMessageError: "",
-    role: returnRole(localStorage.getItem("accessToken")),
+    category: returnCategory(localStorage.getItem("accessToken")),
     token: localStorage.getItem("accessToken"),
   },
   reducers: {
@@ -506,7 +513,7 @@ export const authReducer = createSlice({
       state.loader = false;
       state.successMessage = payload.payload;
       state.token = payload.payload.token;
-      state.role = returnRole(payload.payload.token);
+      state.category = returnCategory(payload.payload.token);
     });
 
     builder.addCase(seller_login.pending, (state) => {
@@ -520,7 +527,7 @@ export const authReducer = createSlice({
       state.loader = false;
       state.successMessage = payload.payload;
       state.token = payload.payload.token;
-      state.role = returnRole(payload.payload.token);
+      state.category = returnCategory(payload.payload.token);
     });
 
 
@@ -537,7 +544,7 @@ export const authReducer = createSlice({
       state.loader = false;
       state.successMessage = payload.payload.message;
       // state.token = payload.payload.token;
-      // state.role = returnRole(payload.payload.token);
+      // state.category = returnCategory(payload.payload.token);
     });
     builder.addCase(change_password_seller.pending, (state) => {
       state.loader = true;
@@ -550,7 +557,7 @@ export const authReducer = createSlice({
       state.loader = false;
       state.successMessage = payload.payload.message;
       // state.token = payload.payload.token;
-      // state.role = returnRole(payload.payload.token);
+      // state.category = returnCategory(payload.payload.token);
     });
 
     builder.addCase(seller_register.pending, (state) => {
@@ -604,7 +611,7 @@ export const authReducer = createSlice({
     builder.addCase(get_user_info.fulfilled, (state, payload) => {
       state.loader = false;
       state.userInfo = payload.payload.userInfo;
-      state.role = payload.payload.userInfo.role;
+      state.category = payload.payload.userInfo.category;
       // state.userInfo = payload.userInfo;
     });
 
@@ -682,7 +689,7 @@ export const authReducer = createSlice({
           state.loader = false;
           state.successMessage = payload.payload;
           state.token = payload.payload.token;
-          state.role = returnRole(payload.payload.token);
+          state.category = returnCategory(payload.payload.token);
         });
   },
 

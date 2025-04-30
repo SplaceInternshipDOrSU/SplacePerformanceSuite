@@ -10,14 +10,14 @@ import { FaTimes } from "react-icons/fa";
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { role } = useSelector(state => state.auth)
+  const { category } = useSelector(state => state.auth)
   const { pathname } = useLocation()
   const [allNav, setAllNav] = useState([])
 
   useEffect(() => {
-    const navs = getNavs(role)
+    const navs = getNavs(category)
     setAllNav(navs)
-  }, [role])
+  }, [category])
 
   return (
     <div>
@@ -76,7 +76,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
   <li className="relative group">
     <button 
-      onClick={() => dispatch(logout({ navigate, role }))}
+      onClick={() => dispatch(logout({ navigate, category }))}
       className="text-[#d0d2d6] flex items-center gap-3 px-[12px] py-[9px] rounded-sm transition-all duration-300 ease-in-out hover:pl-5 w-full"
     >
       <div className="flex items-center gap-3 w-full">
