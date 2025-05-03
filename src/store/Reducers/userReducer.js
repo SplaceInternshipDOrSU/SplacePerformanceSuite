@@ -67,6 +67,25 @@ export const user_status_update = createAsyncThunk(
 )
 
 
+export const get_active_users = createAsyncThunk(
+  'user/get_active_users',
+  async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue, getState }) => {
+    const {token} = getState().auth
+    const config = {
+      headers : {
+        Authorization: `Bearer ${token}`
+      }
+    }
+      try {
+          const { data } = await api.get(`/get-users?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, config)
+          console.log(data)
+          return fulfillWithValue(data)
+      } catch (error) {
+          return rejectWithValue(error.response.data)
+      }
+  }
+)
+
 // SPLACE BS
 
 
@@ -371,6 +390,37 @@ export const userReducer = createSlice({
     builder.addCase(get_user.fulfilled, (state, payload) => {
       state.loader = false;
       state.user = payload.payload.user;
+    
+    });
+
+
+    builder.addCase(get_active_users.fulfilled, (state, payload) => {
+      state.loader = false;
+      state.users = payload.payload.users
+      state.totalUsers = payload.payload.totalUsers
+    });
+
+    builder.addCase(user_status_update.pending, (state) => {
+      state.loader = true;
+     
+    
+    });
+    builder.addCase(user_status_update.rejected, (state, payload) => {
+      state.loader = false;
+      state.errorMessage = payload.payload.error;
+     
+    
+    });
+    builder.addCase(user_status_update.fulfilled, (state, payload) => {
+      state.loader = false;
+      state.successMessage = payload.payload.message;
+      state.seller = payload.payload.seller;
+
+      if (payload.payload.user) {
+        state.users = [...state.users, payload.payload.user];
+      }
+      // });
+     
     
     });
     

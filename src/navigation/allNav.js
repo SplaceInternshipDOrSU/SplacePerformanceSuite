@@ -44,15 +44,7 @@ export const allNav = [
     path: "/admin/user-roles",
   },
   {
-    id: 2,
-    title: "User Categories",
-    icon: React.createElement(TbCategoryFilled),
-    // icon: <AiFillDashboard />,
-    role: "admin",
-    path: "/admin/user-categories",
-  },
-  {
-    id: 2,
+    id: 3,
     title: "User Requests",
     icon: React.createElement(FiUsers),
     // icon: <AiFillDashboard />,
@@ -60,7 +52,15 @@ export const allNav = [
     path: "/admin/user-requests",
   },
   {
-    id: 3,
+    id: 4,
+    title: "Users",
+    icon: React.createElement(FiUsers),
+    // icon: <AiFillDashboard />,
+    role: "admin",
+    path: "/admin/dashboard/active-users",
+  },
+  {
+    id: 5,
     title: "Dashboard",
     icon: React.createElement(AiFillDashboard),
     // icon: <AiFillDashboard />,

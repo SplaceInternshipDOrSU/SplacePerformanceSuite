@@ -10,6 +10,8 @@ const DeactivatedUser = lazy(() =>
   import("./../../views/DeactivatedUser")
 );
 
+
+
 const publicRoutes = [
   {
     path: "/",

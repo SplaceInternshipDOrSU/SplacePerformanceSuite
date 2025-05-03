@@ -53,6 +53,23 @@ const AdminLogin = () => {
            
         }
     }, [errorMessage, successMessage])
+    const {category} = useSelector(state=>state.auth)
+
+    useEffect(() =>{
+
+        if(category === "admin")
+        {
+            // toast.error("PLEASE LOGOUT FIRST")
+            navigate("/admin/dashboard")
+        }
+       
+  
+
+
+//   if(category === 'admin') return <Navigate to='admin/dashboard' replace/>
+    },[category,dispatch])
+
+
     return (
         <div className='min-w-screen min-h-screen bg-main-bg flex justify-center items-center relative' style={{
             backgroundImage: "url('/images/background.gif')",

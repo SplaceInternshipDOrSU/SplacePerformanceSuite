@@ -115,6 +115,56 @@ export const categories_get = createAsyncThunk(
     }
   );
 
+  export const get_role_by_id = createAsyncThunk(
+    "role/get_role_by_id",
+    async (roleId, { rejectWithValue, fulfillWithValue, getState }) => {
+      const { token } = getState().auth;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+  
+  
+      console.log()
+      try {
+        const {data} = await api.get(`/role-get-id/${roleId}`,config);
+        console.log(data)
+        console.log("-------------------------get role by ID")
+        return fulfillWithValue(data);
+      } catch (error) {
+        return rejectWithValue(error.response.data)
+      }
+    }
+  );
+
+
+  export const roleEdit = createAsyncThunk(
+    "role/roleEdit",
+    async ({  id, name ,description}, { rejectWithValue, fulfillWithValue, getState}) => {
+      const {token} = getState().auth
+      const config = {
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      }
+  
+  
+      try {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("id", id);
+  
+  
+        const { data } = await api.post("/role-edit", formData, config);
+        console.log(data)
+        return fulfillWithValue(data);
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  );
 
   
   
@@ -293,6 +343,29 @@ export const locationsAdd = createAsyncThunk(
   }
 );
 
+
+
+
+export const roleDelete = createAsyncThunk(
+  "role/roleDelete",
+  async ({ id }, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    console.log(id)
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      // Make DELETE request to your API endpoint
+      const { data } = await api.delete(`/role-remove/${id}`, config);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const categoryDelete = createAsyncThunk(
   "category/categoryDelete",
   async ({ id }, { rejectWithValue, fulfillWithValue, getState }) => {
@@ -314,6 +387,9 @@ export const categoryDelete = createAsyncThunk(
     }
   }
 );
+
+
+
 export const locationDelete = createAsyncThunk(
   "category/locationDelete",
   async ({ id }, { rejectWithValue, fulfillWithValue, getState }) => {
@@ -541,6 +617,7 @@ export const adminReducer = createSlice({
     errorMessage: "",
     loader: false,
     loader_delete: false,
+    loader_role: false,
     // categories: [],
     // totalCategory: 0,
     additionalFeatures: [],
@@ -554,13 +631,22 @@ export const adminReducer = createSlice({
 
     totalRoles: 0,
     roles : [],
+    role : {},
     categories: [],
     totalCategories: 0,
+    editError : false,
+    editErrorMessage: "",
+    
   },
   reducers: {
     messageClear: (state) => {
       state.errorMessage = "";
       state.successMessage = "";
+    },
+    editErrorClear: (state) => {
+      state.editErrorMessage = "";
+      state.editError = false;
+
     },
   },
   extraReducers: (builder) => {
@@ -578,6 +664,9 @@ export const adminReducer = createSlice({
       state.successMessage = payload.payload.message;
       state.categories = [...state.categories, payload.payload.category];
     });
+
+
+
     builder.addCase(locationEdit.pending, (state) => {
       state.loader = true;
     });
@@ -817,10 +906,69 @@ export const adminReducer = createSlice({
                 state.successMessage = payload.payload.message;
                 state.categories = [...state.categories, payload.payload.category];
               });
+
+              builder.addCase(roleDelete.pending, (state) => {
+                state.loader_delete = true;
+              });
+              builder.addCase(roleDelete.rejected, (state, payload) => {
+                state.loader_delete = false;
+                state.errorMessage = payload.payload.error;
+              });
+          
+              builder.addCase(roleDelete.fulfilled, (state, payload) => {
+                state.loader_delete = false;
+                state.successMessage = payload.payload.message;
+              
+                // Only add category if it's not null or undefined
+                if (payload.payload.roles) {
+                  state.roles = [...state.roles, payload.payload.roles];
+                }
+              });
+
+
+
+              builder.addCase(get_role_by_id.pending, (state) => {
+                state.loader_role = true;
+              });
+              builder.addCase(get_role_by_id.rejected, (state, payload) => {
+                state.loader_role = false;
+                state.errorMessage = payload.payload.error;
+              });
+          
+              builder.addCase(get_role_by_id.fulfilled, (state, payload) => {
+                state.loader_role = false;
+                state.successMessage = payload.payload.message;
+                state.role= payload.payload.role
+              });
+
+              builder.addCase(roleEdit.pending, (state) => {
+                state.loader123 = true;
+              });
+              builder.addCase(roleEdit.rejected, (state, payload) => {
+                state.loader123 = false;
+                state.errorMessage = payload.payload.error;
+                state.editErrorMessage = payload.payload.error;
+                state.editError = true
+              });
+              builder.addCase(roleEdit.fulfilled, (state, payload) => {
+                state.loader123 = false;
+                state.editError = false
+                state.successMessage = payload.payload.message;
+              
+                // Replace the role with the same id
+                state.roles = state.roles.map(role =>
+                  role._id === payload.payload.role._id ? payload.payload.role : role
+                );
+              });
+              
+          
+
+
+              
             // SPLACE BS
     
   },
 });
 
-export const { messageClear } = adminReducer.actions;
+export const { messageClear,editErrorClear } = adminReducer.actions;
 export default adminReducer.reducer;

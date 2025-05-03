@@ -4,6 +4,7 @@ import adminReducer from "./Reducers/adminReducer";
 
 
 
+
 const rootReducer = {
   auth: authReducer,
   user: userReducer,

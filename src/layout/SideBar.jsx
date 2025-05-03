@@ -44,7 +44,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       </div>
 
 
-      <div className="px-[16px] pt-3">
+      <div className="px-[16px] pt-10">
       <ul>
   {allNav.map((n, i) => (
     <li key={i} className="relative group w-full">

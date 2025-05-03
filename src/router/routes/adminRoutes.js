@@ -4,6 +4,7 @@ const UserRequests = lazy(() => import("../../views/admin/UserRequests"));
 const UserRoles = lazy(() => import("../../views/admin/UserRoles.jsx"));
 const UserCategories = lazy(() => import("../../views/admin/UserCategories"));
 const UserDetails = lazy(() => import("../../views/admin/UserDetails"));
+const Users = lazy(() => import("../../views/admin/Users"));
 
 
 export const adminRoutes = [
@@ -40,6 +41,12 @@ export const adminRoutes = [
     element: React.createElement(UserDetails),
     ability: "admin",
     // role: "admin",
+    category: "admin",
+  },
+  {
+    path: "admin/dashboard/active-users",
+    element: React.createElement(Users),
+    ability: "admin",
     category: "admin",
   },
 
