@@ -254,15 +254,11 @@ useEffect(() => {
                                                             }`}
                                                 disabled={loader_delete === role._id}
                                                 >
-                                                {loader_delete === role._id ? (
-                                                    <span className="flex items-center gap-2">
-                                                    Deleting... <span className="loader"></span>
-                                                    </span>
-                                                ) : (
+                                               
                                                     <span className="flex items-center gap-2">
                                                     EDIT ROLE <MdEdit />
                                                     </span>
-                                                )}
+                                                
                                             </button>
                                         </div>
                                         </td>
@@ -320,12 +316,12 @@ useEffect(() => {
                             <div className="w-full h-[220px] flex justify-center items-center text-center ">Fetching Role Data...</div>
                         ):(
                             <div className="w-full h-[190px]">
-                                <div className="bg-green-400">
+                                <div className="">
                                     {
                                         editError? (
                                             <div className="w-full flex justify-between items-center bg-red-500 px-2 rounded py-2 font-bold text-slate-100">{editErrorMessage} <FaExclamationCircle /></div>
                                         ):(
-                                            <div className=""></div>
+                                            <div className="h-[33px]"></div>
                                         )
                                     }
                                 </div>
@@ -338,7 +334,7 @@ useEffect(() => {
 
 
                             <div className="flex flex-col w-full gap-1 mb-3">
-                                <label htmlFor="description">Role Description</label>
+                                <label className='font-bold' htmlFor="description ">Role Description</label>
                                 <textarea value={stateEdit.description} onChange={(e)=>setStateEdit({...stateEdit, description: e.target.value})} id='description' name='description' className='px-4 py-2 focus:border-accent outline-none border-2 border-slate-700 rounded-md text-slate-600' type="text" placeholder='Role Description' required/>
                             </div>
                             <div className="flex justify-end gap-4">
@@ -356,11 +352,6 @@ useEffect(() => {
                                 </button>
                             </div>
                                            
-                            {/* <button disabled={loader ? true : false} className='bg-accent/50 w-full hover:shadow-[#6ED601]/10 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 font-bold mt-5'>
-                                {
-                                       loader ? <PropagateLoader color='#fff'cssOverride = {overRideStyle}/> :'Edit Commodity'
-                                }
-                            </button> */}
                       
                             </div>
                         )

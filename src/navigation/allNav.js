@@ -33,6 +33,7 @@ export const allNav = [
     icon: React.createElement(AiFillDashboard),
     // icon: <AiFillDashboard />,
     category: "admin",
+    role: "admin",
     path: "/admin/dashboard",
   },
   {
