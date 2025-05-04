@@ -217,7 +217,7 @@ useEffect(() => {
                             {roles && roles.length > 0 ? (
                                     roles.map((role, i) => (
                                     <tr key={i}>
-                                        <td className="py-1 px-4 font-medium whitespace-nowrap">{i + 1}</td>
+                                        <td className="py-1 px-4 font-medium whitespace-nowrap">{role.no}</td>
                                         <td className="py-1 px-4 font-medium whitespace-nowrap">
                                           <span>{role.name}</span>
                                         </td>
