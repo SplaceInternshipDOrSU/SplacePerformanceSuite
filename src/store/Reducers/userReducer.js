@@ -5,7 +5,7 @@ import api from "../../api/api";
 export const get_users_request = createAsyncThunk(
   "seller/get_users_request",
   async (
-    { parPage, page, searchValue },
+    { parPage, page, searchValue,role, category },
     { rejectWithValue, fulfillWithValue, getState }
   ) => {
     const {token} = getState().auth
@@ -15,7 +15,7 @@ export const get_users_request = createAsyncThunk(
     }
   }
     try {
-      const { data } = await api.get(`/request-users-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, config)
+      const { data } = await api.get(`/request-users-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}&&role=${role}&&category=${category}`, config)
       console.log("fetch data")
       console.log(data)
       return fulfillWithValue(data)
@@ -384,6 +384,7 @@ export const userReducer = createSlice({
     builder.addCase(get_users_request.fulfilled, (state, payload) => {
       state.loader = false;
       state.totalUsers = payload.payload.totalUsers;
+      state.totalPages = payload.payload.totalPages;
       state.users = payload.payload.users;
       
     });
@@ -399,6 +400,8 @@ export const userReducer = createSlice({
       state.loader = false;
       state.users = payload.payload.users
       state.totalUsers = payload.payload.totalUsers
+      state.totalPages  = payload.payload.totalPages
+
     });
 
     builder.addCase(user_status_update.pending, (state) => {

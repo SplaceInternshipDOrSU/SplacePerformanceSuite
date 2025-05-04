@@ -6,6 +6,7 @@ import {
 } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
 import React from "react";
+import { RiTeamFill } from "react-icons/ri";
 import { TbCategoryFilled } from "react-icons/tb";
 import { BiCategory, BiLoaderCircle } from "react-icons/bi";
 import { BsChat } from "react-icons/bs";
@@ -41,6 +42,7 @@ export const allNav = [
     title: "User Role",
     icon: React.createElement(FiUsers),
     // icon: <AiFillDashboard />,
+    category: "admin",
     role: "admin",
     path: "/admin/user-roles",
   },
@@ -49,6 +51,7 @@ export const allNav = [
     title: "User Requests",
     icon: React.createElement(FiUsers),
     // icon: <AiFillDashboard />,
+    category: "admin",
     role: "admin",
     path: "/admin/user-requests",
   },
@@ -57,14 +60,25 @@ export const allNav = [
     title: "Users",
     icon: React.createElement(FiUsers),
     // icon: <AiFillDashboard />,
+    category: "admin",
     role: "admin",
     path: "/admin/dashboard/active-users",
+  },
+  {
+    id: 4,
+    title: "Teams",
+    icon: React.createElement(RiTeamFill),
+    // icon: <AiFillDashboard />,
+    category: "admin",
+    role: "admin",
+    path: "/admin/teams",
   },
   {
     id: 5,
     title: "Dashboard",
     icon: React.createElement(AiFillDashboard),
     // icon: <AiFillDashboard />,
+    category: "team-lead",
     role: "team-lead",
     path: "/team-lead/dashboard",
   },

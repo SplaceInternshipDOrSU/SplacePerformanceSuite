@@ -8,9 +8,10 @@ const Home = () => {
   // const {r} = useSelector(state=>state.auth)
 
   console.log(category)
+  console.log("category ------------------- YWA")
 
 
-  if(category === 'admin') return <Navigate to='admin/dashboard' replace/>
+  if(category.name === 'admin') return <Navigate to='admin/dashboard' replace/>
   else if(category === 'rankandfile') return <Navigate to='rank-and-file/dashboard' replace/>
   else if(category === 'supervisor') return <Navigate to='supervisor/dashboard' replace/>
   else if(category === 'manager') return <Navigate to='manager/dashboard' replace/>

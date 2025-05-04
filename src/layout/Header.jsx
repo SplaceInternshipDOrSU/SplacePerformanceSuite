@@ -21,6 +21,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
       <div 
         onClick={() => setShowSidebar(!showSidebar)} 
         className="w-[35px] flex h-[35px] rounded-sm bg-accent shadow-lg hover:shadow-accent/50 justify-center items-center cursor-pointer"
+
       >
         <span><FaList /></span>
       </div>
@@ -43,7 +44,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
                           <h2 className='text-sm font-bold'>{userInfo?.name}</h2>
                       </div>
           
-                     <h2 className='text-sm font-bold'>{userInfo?.role}</h2>
+                     <h2 className='text-sm font-bold'>{userInfo?.category?.name}</h2>
                     </div>
                   )
                 }

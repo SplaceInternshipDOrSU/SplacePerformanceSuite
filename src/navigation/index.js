@@ -1,9 +1,11 @@
 import { allNav } from "./allNav";
-export const getNavs = (role) => {
+
+
+export const getNavs = (category) => {
   const finalNavs = [];
 
   for (let i = 0; i < allNav.length; i++) {
-    if (role === allNav[i].role) {
+    if (category === allNav[i].category) {
       finalNavs.push(allNav[i]);
     }
   }

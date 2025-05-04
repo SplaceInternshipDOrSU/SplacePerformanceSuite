@@ -19,6 +19,11 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     setAllNav(navs)
   }, [category])
 
+
+
+  console.log(allNav)
+  console.log("allNav")
+
   return (
     <div>
     {/* Overlay for mobile screens */}

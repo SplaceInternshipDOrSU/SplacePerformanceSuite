@@ -12,12 +12,12 @@ import { toast } from 'react-hot-toast';
 import { FaExclamationCircle } from "react-icons/fa";
 
 import {useSelector, useDispatch} from 'react-redux'
-import { roleAdd ,messageClear, roles_get ,roleDelete,get_role_by_id,roleEdit,editErrorClear} from '../../store/Reducers/adminReducer';
+import { roleAdd ,messageClear, roles_get ,roleDelete,get_role_by_id,roleEdit,editErrorClear,get_supervisors,get_managers,get_rankandfile_employees} from '../../store/Reducers/teamReducer';
 import Search from './../components/Search';
 import Modal from './../../Components/Modal/modal';
 // import UserRoles from './UserRoles copy';
 
-const UserRoles = () => {
+const Teams = () => {
     const dispatch = useDispatch()
     const {roles,totalRoles,totalPages, loader, successMessage, errorMessage, loader_delete,loader_role,role,editError, editErrorMessage} = useSelector(state=>state.admin)
 
@@ -25,9 +25,12 @@ const UserRoles = () => {
     const [searchValue, setSearchValue] = useState('')
     const [parPage, setParpage] = useState(5)
     const [show,setShow] = useState(false)
+     const [showSupervisors, setShowSupervisors] = useState(false)
     // const [imageShow, setImage] = useState('')
     const [state,setState] = useState({
         name: '',
+        supervisor: '',
+        manager : '',
         description : ''
     })
     const [stateEdit,setStateEdit] = useState({
@@ -176,6 +179,37 @@ useEffect(() => {
     }
 }, [role]);
 
+
+
+// NEW SHIT
+  useEffect(() => {
+    console.log("NGIIIIIIII")
+    dispatch(get_supervisors({
+        searchValue: '',
+        parPage: '',
+        page: "",
+        role: "",
+        category : '680fa0c1d72f5448c2013189'
+    }))
+    dispatch(get_managers({
+        searchValue: '',
+        parPage: '',
+        page: "",
+        role: "",
+        category : '680fa0c1d72f5448c2013190'
+    }))
+    dispatch(get_rankandfile_employees({
+        searchValue: '',
+        parPage: '',
+        page: "",
+        role: "",
+        category : '680fa0c1d72f5448c2013188'
+    }))
+
+}, [dispatch])
+// NEW SHIT
+
+
   return (
     <div className=' pt-5'>
         <div className="flex lg:hidden justify-between items-center mb-5 p-4 bg-[#283046] rounded-md">
@@ -271,13 +305,8 @@ useEffect(() => {
                                 )}
                             </tbody>
                         </table>
-
-                       
                     </div>   
-                    <div className="w-full flex justify-between mt-4 bottom-4 right-4">
-                    <div className="pl-3 text-xs font-semibold text-slate-100">
-                        <h2>Page <span className='text-accent'>{currentPage}</span> of {totalPages}</h2>
-                    </div>
+                    <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                          <Pagination
                             pageNumber = {currentPage}
                             setPageNumber = {setCurrentPage}
@@ -342,6 +371,8 @@ useEffect(() => {
                                 <label className='font-bold' htmlFor="description ">Role Description</label>
                                 <textarea value={stateEdit.description} onChange={(e)=>setStateEdit({...stateEdit, description: e.target.value})} id='description' name='description' className='px-4 py-2 focus:border-accent outline-none border-2 border-slate-700 rounded-md text-slate-600' type="text" placeholder='Role Description' required/>
                             </div>
+
+                            
                             <div className="flex justify-end gap-4">
                                 <button
                                 onClick={closeEditModal}
@@ -370,20 +401,75 @@ useEffect(() => {
                 <div className="w-full pl-5">
                     <div className="bg-[#283046] rounded-md h-screen lg:h-auto px-6 py-6 lg:rounded-md text-slate-100">
                         <div className="flex justify-between items-center py-3">
-                            <h1 className='text-text_color font-semibold text-xl uppercase'>Add New Role</h1>
+                            <h1 className='text-text_color font-semibold text-xl uppercase'>Add New Team</h1>
                             <div onClick={()=> setShow(false)} className="block lg:hidden cursor-pointer"><IoClose className='text-text_color' size={25} color='red'/></div>
                         </div>
                         <form onSubmit={add_Role} className=''>
                       
                             <div className="flex flex-col w-full gap-1 mb-3">
-                                <label htmlFor="name">Role Name</label>
-                                <input value={state.name} onChange={(e)=>setState({...state, name: e.target.value})} id='name' name='name' className='px-4 py-2 focus:border-accent outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='Role Name' required/>
+                                <label htmlFor="name">Team Name</label>
+                                <input value={state.name} onChange={(e)=>setState({...state, name: e.target.value})} id='name' name='name' className='px-4 py-2 focus:border-accent outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='Team Name' required/>
                             </div>
+                              <div className="mt-7  w-full ">
+                                        <div className="text-end flex justify-end items-center gap-1 py-[2px]">
+                                          <img className='h-[20px]' src="/images/Splace Logo.png" alt="" />
+                                          <h2 className='font-bold text-accent'> Job Classification</h2>
+                                        </div>
+                                          <div className="w-full border-accent border-t-2 pt-3">
+                                            <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">SELECT EMPLOYEE ROLE</div>
+                                            
+                                            <input
+                                              readOnly
+                                              onClick={() => setShowSupervisors(true)}
+                                              value={state["supervisor"] || ""}
+                                              className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
+                                              type="text"
+                                              placeholder="Employee Role"
+                                              name="roleName"
+                                              id="roleName"
+                                            />
+                            
+                                            {/* Modal */}
+                                            {showSupervisors && (
+                                              <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
+                                                <div className="bg-white rounded-lg w-[400px] h-[300px] max-w-md p-4 shadow-xl text-slate-800">
+                                                  <div className="flex justify-between items-center mb-4">
+                                                    <h2 className="font-bold text-lg">Select Role</h2>
+                                                    <button onClick={() => setShowSupervisors(false)} className=" text-xl"><IoIosCloseCircle size={24} /></button>
+                                                  </div>
+                            
+                                                  <input
+                                                    onChange={roleSearch}
+                                                    value={searchValue}
+                                                    className="mb-3 w-full px-4 py-1 border-b-2 border-slate-700 bg-transparent outline-none"
+                                                    type="text"
+                                                    placeholder="Search Role"
+                                                    name="role"
+                                                    id="role"
+                                                  />
+                            
+                                                  <div className="max-h-48 overflow-y-auto">
+                                                    {allRole.map((role, index) => (
+                                                      <div
+                                                        key={index}
+                                                        onClick={() => {
+                                                          setUserData({ ...userData, roleName: role.name, role: role._id });
+                                                          setShowRole(false);
+                                                        }}
+                                                        className="cursor-pointer py-2 px-4 hover:bg-accent hover:text-slate-300 font-semibold rounded-md"
+                                                      >
+                                                        {role.name}
+                                                      </div>
+                                                    ))}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+                                       
+                                        </div>
                       
-                            <div className="flex flex-col w-full gap-1 mb-3">
-                                <label htmlFor="name">Role Description</label>
-                                <textarea rows="4" cols="50" value={state.description} onChange={(e)=>setState({...state, description: e.target.value})} id='description' name='description' className='px-4 py-2 focus:border-accent outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='Role Description' required/>
-                            </div>
+                          
                      
                             <button disabled={loader ? true : false} className='bg-accent uppercase w-full hover:shadow-accent/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 font-bold mt-5'>
                                 {
@@ -404,4 +490,4 @@ useEffect(() => {
   )
 }
 
-export default UserRoles
+export default Teams

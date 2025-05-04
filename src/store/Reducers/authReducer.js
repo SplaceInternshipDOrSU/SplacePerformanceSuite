@@ -460,6 +460,9 @@ const returnCategory = (token) => {
 
   try {
     const decodeToken = jwtDecode(token);
+
+    console.log(decodeToken)
+    console.log("decodeToken")
     const expireTime = new Date(decodeToken.exp * 1000);
 
     if (new Date() > expireTime) {
@@ -611,7 +614,7 @@ export const authReducer = createSlice({
     builder.addCase(get_user_info.fulfilled, (state, payload) => {
       state.loader = false;
       state.userInfo = payload.payload.userInfo;
-      state.category = payload.payload.userInfo.category;
+      state.category = payload.payload.userInfo.category.name;
       // state.userInfo = payload.userInfo;
     });
 
