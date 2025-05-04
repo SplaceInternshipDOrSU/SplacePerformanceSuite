@@ -47,6 +47,7 @@ const SellerRequest = () => {
                            <th scope='col' className='py-3 px-4'>Name</th>
                            <th scope='col' className='py-3 px-4'>Email</th>
                            <th scope='col' className='py-3 px-4'>Role</th>
+                           <th scope='col' className='py-3 px-4'>Category</th>
                            <th scope='col' className='py-3 px-4'>Status</th>
                            <th scope='col' className='py-3 px-4 w-fit'>Action</th>
                           
@@ -66,7 +67,15 @@ const SellerRequest = () => {
                                            <span className='font-medium`'>{u.email}</span>
                                        </td>
                                        <td scope='row' className='py-1 pl-4 font-medium whitespace-nowrap'>
-                                           <h2 className='font-bold text-accent uppercase'>{u.role} </h2>
+                                            <h2 className='font-bold text-accent uppercase'>
+                                                {u.role?.name ? u.role.name : u.role}
+                                            </h2>
+                                        </td>
+
+                                       <td scope='row' className='py-1 pl-4 font-medium whitespace-nowrap'>
+                                           <h2 className='font-bold text-accent uppercase'>
+                                              {u.category?.name ? u.category.name : u.category}
+                                           </h2>
                                        </td>
                                        {/* <td scope='row' className='py-1 pl-4 font-medium whitespace-nowrap'>
                                            <span className='text-orange-400 font-semibold`'>{d.payment}</span>

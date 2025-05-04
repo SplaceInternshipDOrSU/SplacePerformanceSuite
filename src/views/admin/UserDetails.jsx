@@ -86,7 +86,7 @@ const UserDetails = () => {
                 </div>
 
                 <div className="lg:w-8/12 text-slate-100 h-[270px]">
-                    <div className="px-0 md:px-5">
+                    <div className="px-0 md:px-5 bg-slate-800">
                         <div className="py-2 text-lg">
                             <h2 className='font-bold'>Basic Info</h2>
                         </div>
@@ -110,11 +110,11 @@ const UserDetails = () => {
                             </div>
                             <div className="flex gap-2">
                                 <span>Role: </span>
-                                <h2 className='font-bold uppercase text-accent '>{user.role}</h2>
+                                <h2 className='font-bold uppercase text-accent '>{user.roleName}</h2>
                             </div>
                             <div className="flex gap-2">
                                 <span>Category: </span>
-                                <h2 className='font-bold uppercase text-accent '>{user.category}</h2>
+                                <h2 className='font-bold uppercase text-accent '>{user.categoryName}</h2>
                             </div>
                             <div className="flex gap-2">
                                 <span>Status: </span>
@@ -171,9 +171,9 @@ const UserDetails = () => {
                                 <button 
                                     type="submit"
                                     disabled={!status} 
-                                    className={`bg-accent w-[300px] hover:shadow-accent/50 hover:shadow-md text-[#161D31] rounded-md px-7 py-2 font-semibold ${!status ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`bg-accent w-[300px] hover:shadow-accent/50 hover:shadow-md rounded-md px-7 py-2 font-bold text-slate-100 ${!status ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
-                                    Submit
+                                    SUBMIT
                                 </button>
                             </div>
                         </form>

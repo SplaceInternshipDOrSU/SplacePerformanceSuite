@@ -6,6 +6,7 @@ import { StepperContext } from '../../context/StepperContext';
 // import { overRideStyle } from './../../../utils/Utils';
 import {PropagateLoader, ClipLoader, HashLoader} from 'react-spinners'
 import PrevPageButton from './../../PrevPageButton';
+import { RiErrorWarningFill } from "react-icons/ri";
 
 
 
@@ -49,7 +50,8 @@ const Final = () => {
         {
           requestMessageError? <div className="">
              <div className="text-accent flex justify-center items-center">
-      <FaCheckCircle color='' size={60} />
+      {/* <FaCheckCircle color='' size={60} /> */}
+      <RiErrorWarningFill  color='' size={60}/>
 
       </div>
       <div className="mt-3 text-xl font-semibold uppercase text-accent">{requestMessageError}</div>

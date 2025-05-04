@@ -388,12 +388,12 @@ const categorySearch = (e) => {
                 <input
                   readOnly
                   onClick={() => setShowRole(true)}
-                  value={userData["role"] || ""}
+                  value={userData["roleName"] || ""}
                   className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
                   type="text"
-                  placeholder="Listing Category"
-                  name="role"
-                  id="role"
+                  placeholder="Employee Role"
+                  name="roleName"
+                  id="roleName"
                 />
 
                 {/* Modal */}
@@ -416,16 +416,16 @@ const categorySearch = (e) => {
                       />
 
                       <div className="max-h-48 overflow-y-auto">
-                        {allRole.map((cat, index) => (
+                        {allRole.map((role, index) => (
                           <div
                             key={index}
                             onClick={() => {
-                              setUserData({ ...userData, role: cat.name });
+                              setUserData({ ...userData, roleName: role.name, role: role._id });
                               setShowRole(false);
                             }}
                             className="cursor-pointer py-2 px-4 hover:bg-accent hover:text-slate-300 font-semibold rounded-md"
                           >
-                            {cat.name}
+                            {role.name}
                           </div>
                         ))}
                       </div>
@@ -439,12 +439,12 @@ const categorySearch = (e) => {
                 <input
                   readOnly
                   onClick={() => setShowCategory(true)}
-                  value={userData["category"] || ""}
+                  value={userData["categoryName"] || ""}
                   className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
                   type="text"
                   placeholder="Listing Category"
-                  name="category"
-                  id="category"
+                  name="categoryName"
+                  id="categoryName"
                 />
 
                 {/* Modal */}
@@ -462,8 +462,8 @@ const categorySearch = (e) => {
                         className="mb-3 w-full px-4 py-1 border-b-2 border-slate-700 bg-transparent outline-none"
                         type="text"
                         placeholder="Search Role"
-                        name="category"
-                        id="category"
+                        name="categoryName"
+                        id="categoryName"
                       />
 
                       <div className="max-h-48 overflow-y-auto">
@@ -471,7 +471,7 @@ const categorySearch = (e) => {
                           <div
                             key={index}
                             onClick={() => {
-                              setUserData({ ...userData, category: cat.name });
+                              setUserData({ ...userData, categoryName: cat.name, category: cat._id });
                               setShowCategory(false);
                             }}
                             className="cursor-pointer py-2 px-4 hover:bg-accent hover:text-slate-300 font-semibold rounded-md"

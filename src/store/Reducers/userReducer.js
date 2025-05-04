@@ -69,7 +69,7 @@ export const user_status_update = createAsyncThunk(
 
 export const get_active_users = createAsyncThunk(
   'user/get_active_users',
-  async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue, getState }) => {
+  async ({ parPage, page, searchValue,role, category }, { rejectWithValue, fulfillWithValue, getState }) => {
     const {token} = getState().auth
     const config = {
       headers : {
@@ -77,7 +77,8 @@ export const get_active_users = createAsyncThunk(
       }
     }
       try {
-          const { data } = await api.get(`/get-users?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, config)
+          const { data } = await api.get(`/get-users?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}&&role=${role}&&category=${category}`, config)
+          console.log("GET ALL ACTIVE USERS")
           console.log(data)
           return fulfillWithValue(data)
       } catch (error) {

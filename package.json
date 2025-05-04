@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "push": "git add --all && git commit -m \"changesMade(RUSH-NO-Description) -dev0\" && git push origin main"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.7.0",

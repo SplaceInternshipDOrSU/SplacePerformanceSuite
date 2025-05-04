@@ -98,8 +98,8 @@ const InformationReview = () => {
                   <h2 className='text-xs font-semibold'>{userData.email}</h2>
                 </div>
               <div className="border-t-2 border-accent ">
-              <h2 className='font-bold text-xl'>{userData.category}</h2>
-              <h2 className='font-bold text-xs'>{userData.role}</h2>
+                <h2 className='font-bold text-xl'>{userData.categoryName}</h2>
+                <h2 className='font-bold text-xs'>{userData.roleName}</h2>
               </div>
               
             </div>
