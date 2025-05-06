@@ -65,6 +65,83 @@ export const get_rankandfile_employees = createAsyncThunk(
   }
 )
 
+export const get_active_ceo = createAsyncThunk(
+  'user/get_active_ceo',
+  async ({ category }, { rejectWithValue, fulfillWithValue, getState }) => {
+    const {token} = getState().auth
+    const config = {
+      headers : {
+        Authorization: `Bearer ${token}`
+      }
+    }
+      try {
+          const { data } = await api.get(`/get-active-ceo?category=${category}`, config)
+          console.log("GET ACTIVE CEO")
+          console.log(data)
+          return fulfillWithValue(data)
+      } catch (error) {
+          return rejectWithValue(error.response.data)
+      }
+  }
+)
+export const get_active_coo = createAsyncThunk(
+  'user/get_active_coo',
+  async ({ category }, { rejectWithValue, fulfillWithValue, getState }) => {
+    const {token} = getState().auth
+    const config = {
+      headers : {
+        Authorization: `Bearer ${token}`
+      }
+    }
+      try {
+          const { data } = await api.get(`/get-active-coo?category=${category}`, config)
+          console.log("GET ACTIVE C0O")
+          console.log(data)
+          return fulfillWithValue(data)
+      } catch (error) {
+          return rejectWithValue(error.response.data)
+      }
+  }
+)
+
+
+
+
+
+
+
+export const teamAdd = createAsyncThunk(
+  "team/team-add",
+  async ({ name, ceoId, cooId, manager, supervisor, rf }, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("ceoId", ceoId);
+      formData.append("cooId", cooId);
+      formData.append("supervisorId", supervisor);
+      formData.append("managerId", manager);
+
+      // Append each rank-and-file ID one by one
+      rf.forEach(id => {
+        formData.append("rankandfileIds[]", id); // backend expects an array
+      });
+
+      const { data } = await api.post("/team-add", formData, config);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
 
 // SPLACE_BS
 export const categories_get = createAsyncThunk(
@@ -689,6 +766,7 @@ export const teamReducer = createSlice({
     location :{},
     totalLocation :[],
     category : {},
+    loader_team: "",
 
 
 
@@ -705,6 +783,9 @@ export const teamReducer = createSlice({
     managers: {},
     totalRandFs: 0,
     RandFs: {},
+    coo: '',
+    ceo: '',
+    team: {}
     
   },
   reducers: {
@@ -1055,6 +1136,26 @@ export const teamReducer = createSlice({
                   state.totalRandFs = payload.payload.totalUsers
                   state.totalPages  = payload.payload.totalPages
             
+                });
+             builder.addCase(get_active_ceo.fulfilled, (state, payload) => {
+                  state.loader = false;
+                  state.ceo = payload.payload.user._id
+                });
+             builder.addCase(get_active_coo.fulfilled, (state, payload) => {
+                  state.loader = false;
+                  state.coo = payload.payload.user._id
+                });
+             builder.addCase(teamAdd.pending, (state) => {
+                  state.loader_team = true;
+                });
+             builder.addCase(teamAdd.rejected, (state, payload) => {
+                  state.loader_team = false;
+                  state.editErrorMessage = payload.payload.error;
+                });
+             builder.addCase(teamAdd.fulfilled, (state, payload) => {
+                  state.loader_team = false;
+                  state.successMessage = payload.payload.message;
+                  state.team = payload.payload.team
                 });
             // SPLACE BS
     

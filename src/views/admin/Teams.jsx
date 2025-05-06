@@ -12,16 +12,18 @@ import { toast } from 'react-hot-toast';
 import { FaExclamationCircle } from "react-icons/fa";
 
 import {useSelector, useDispatch} from 'react-redux'
-import { roleAdd ,messageClear, roles_get ,roleDelete,get_role_by_id,roleEdit,editErrorClear,get_supervisors,get_managers,get_rankandfile_employees} from '../../store/Reducers/teamReducer';
+import { teamAdd ,messageClear, roles_get ,roleDelete,get_role_by_id,roleEdit,editErrorClear,get_supervisors,get_managers,get_rankandfile_employees,get_active_ceo,get_active_coo} from '../../store/Reducers/teamReducer';
 import Search from './../components/Search';
 import Modal from './../../Components/Modal/modal';
 import { IoIosCloseCircle } from "react-icons/io";
+import { RiTeamFill } from "react-icons/ri";
 // import UserRoles from './UserRoles copy';
+import { FaCheckCircle } from "react-icons/fa";
 
 const Teams = () => {
     const dispatch = useDispatch()
-    const {roles,totalRoles,totalPages, loader, successMessage, errorMessage, loader_delete,loader_role,role,editError, editErrorMessage} = useSelector(state=>state.admin)
-    const {supervisors, managers, RandFs} = useSelector(state=>state.team)
+    const {roles,totalRoles,totalPages, loader_delete,loader_role,role,editError, editErrorMessage} = useSelector(state=>state.admin)
+    const { loader_team, successMessage, errorMessage,supervisors, managers, RandFs,coo, ceo} = useSelector(state=>state.team)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [searchValue, setSearchValue] = useState('')
@@ -44,7 +46,11 @@ const Teams = () => {
         description : '',
         rfName: [], // must be an array
         rf: [],     // must be an array
+        cooId: '',
+        ceoId: '',
     })
+
+
     const [allSupervisors, setAllSupervisors] = useState([])
     const [allManagers, setAllManagers] = useState([])
     const [allRandFs, setAllRandFs] = useState([])
@@ -53,6 +59,9 @@ const Teams = () => {
         description : ''
     })
   
+
+    console.log(selectedRandFs)
+    console.log("selectedRandFs")
 
     // const imageHandler= (e)=>{
     //     let files = e.target.files
@@ -67,10 +76,14 @@ const Teams = () => {
     //     }
     // }
 
-    const add_Role = (e)=>{
+
+ 
+    
+
+    const add_Team = (e)=>{
         e.preventDefault()
         console.log(state)
-        dispatch(roleAdd(state))
+        dispatch(teamAdd(state))
     }
 useEffect(()=>{
 if(errorMessage){
@@ -82,9 +95,13 @@ if(errorMessage){
     dispatch(messageClear())
     setState({
         name:'',
-        description : ''
+        supervisor: '',
+        manager : '',
+        description : '',
+        rfName: [], // must be an array
+        rf: [],     // must be an array
     })
-    
+    setSelectedRandFs([])
     const obj = {
         parPage : parseInt(parPage),
         page : parseInt(currentPage),
@@ -197,18 +214,29 @@ useEffect(() => {
 
 
 // NEW SHIT
-const handleFeatureToggle = (featureName) => {
-  // Prevent adding more than 3 features
-  if (selectedRandFs.includes(featureName)) {
-      // Deselect feature
-      setSelectedRandFs((prev) => prev.filter((item) => item !== featureName));
-  } else if (selectedRandFs.length < 3) {
-      // Add feature if limit is not reached
-      setSelectedRandFs((prev) => [...prev, featureName]);
+const handleRandFsToggle = (employee) => {
+  const isSelected = selectedRandFs.some((item) => item._id === employee._id);
+
+  let updatedList;
+  if (isSelected) {
+    // Deselect
+    updatedList = selectedRandFs.filter((item) => item._id !== employee._id);
   } else {
-      toast.error('You can only select up to 3 features.', { autoClose: 3000 });
+    // Select (no limit now)
+    updatedList = [...selectedRandFs, employee];
   }
+
+  setSelectedRandFs(updatedList);
+
+  // Sync to state
+  setState((prevState) => ({
+    ...prevState,
+    rf: updatedList.map((item) => item._id),
+    rfName: updatedList.map((item) => item.name),
+  }));
 };
+
+
 
 
   useEffect(() => {
@@ -234,7 +262,15 @@ const handleFeatureToggle = (featureName) => {
         role: "",
         category : '680fa0c1d72f5448c2013188'
     }))
+    dispatch(get_active_ceo({
+        category : '680fa0c1d72f5448c2013192'
+    }))
+    dispatch(get_active_coo({
+        category : '680fa0c1d72f5448c2013191'
+    }))
 }, [dispatch])
+
+
 
 
 useEffect(() => {
@@ -246,14 +282,17 @@ useEffect(() => {
 useEffect(() => {
   setAllRandFs(RandFs)
 }, [RandFs])
+
+
 useEffect(() => {
-    if (Array.isArray(RandFs) && Array.isArray(state.rf)) { // Check if RandFs and state.rf are arrays
-      const filteredRandFs = RandFs.filter(randf => !state.rf.includes(randf.id));
-      setAllRandFs(filteredRandFs);
-    } else {
-      console.error("RandFs or state.rf is not an array:", RandFs, state.rf);
-    }
-  }, [RandFs, state.rf,allRandFs]); // Dependencies: re-run when RandFs or state.rf changes
+  setState(prevState => ({
+    ...prevState,
+    cooId: coo,
+    ceoId: ceo
+  }));
+}, [coo, ceo]);
+
+
 
 console.log(state)
 console.log("state")
@@ -493,7 +532,7 @@ console.log("state")
                             <h1 className='text-text_color font-semibold text-xl uppercase'>Add New Team</h1>
                             <div onClick={()=> setShow(false)} className="block lg:hidden cursor-pointer"><IoClose className='text-text_color' size={25} color='red'/></div>
                         </div>
-                        <form onSubmit={add_Role} className=''>
+                        <form onSubmit={add_Team} className=''>
                       
                             <div className="flex flex-col w-full gap-1 mb-3">
                                 <label htmlFor="name">Team Name</label>
@@ -504,7 +543,36 @@ console.log("state")
                                           <img className='h-[20px]' src="/images/Splace Logo.png" alt="" />
                                           <h2 className='font-bold text-accent'> TEAM COMPOSITION</h2>
                                         </div>
-                                          <div className="w-full border-accent border-t-2 pt-3">
+                                        <div className="w-full border-accent border-t-2 pt-3 flex flex-row gap-2 justify-end items-start font-bold">
+                                          <div className="flex justify-center items-center gap-2">
+                                            <h2>CEO : </h2>
+                                            {
+                                              ceo? (
+                                                <FaCheckCircle className='text-accent'/>
+                                              ):(
+                                                <div className="flex justify-center items-center gap-1">
+                                                  <IoClose className='text-accent' />
+                                                  <div className="">NO CEO ACCOUNT</div>
+                                                </div>
+                                              )
+                                            }
+                                          </div>
+                                          <div className="flex justify-center items-center gap-2">
+                                            <h2>COO : </h2>
+                                            {
+                                              coo? (
+                                                <FaCheckCircle className='text-accent'/>
+                                              ):(
+                                                <div className="flex justify-center items-center gap-1">
+                                                  <IoClose className='text-accent' />
+                                                  <div className="">NO COO ACCOUNT</div>
+                                                </div>
+                                              )
+                                            }
+                                          </div>
+                                         
+                                        </div>
+                                          <div className="w-full ">
                                             <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">ASSIGN A NEW SUPERVISOR</div>
                                             
                                             <input
@@ -624,13 +692,14 @@ console.log("state")
                                             <input
                                               readOnly
                                               onClick={() => setShowRandF(true)}
-                                              value={state["managerName"] || ""}
+                                              value={selectedRandFs.map((item) => item.name).join(', ')}
                                               className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
                                               type="text"
                                               placeholder="Rank and file Employees"
                                               name="randfName"
                                               id="randfName"
                                             />
+
                             
                                             {/* Modal */}
                                             {showRandF && (
@@ -659,20 +728,24 @@ console.log("state")
                                                   />
                             
                                                   <div className="max-h-48 overflow-y-auto">
-                                                  {allRandFs.map((f, i) => (
-                                                <label
-                                                    key={i}
-                                                    className="flex items-center px-4 py-2 hover:bg-primary hover:text-text_color rounded-md w-full cursor-pointer"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        className="mr-2"
-                                                        checked={selectedRandFs.includes(f.name)} // Check if feature is selected
-                                                        onChange={() => handleFeatureToggle(f.name)}
-                                                    />
-                                                    {f.name}
-                                                </label>
-                                            ))}
+                                                  {allRandFs.map((f) => {
+                                                      const isChecked = selectedRandFs.some((item) => item._id === f._id);
+                                                      return (
+                                                        <label
+                                                          key={f._id}
+                                                          className="flex items-center px-4 py-2 hover:bg-primary hover:text-slate-100 font-bold rounded-md w-full cursor-pointer"
+                                                        >
+                                                          <input
+                                                            type="checkbox"
+                                                            className="mr-2"
+                                                            checked={isChecked}
+                                                            onChange={() => handleRandFsToggle({ _id: f._id, name: f.name })}
+                                                          />
+                                                          {f.name}
+                                                        </label>
+                                                      );
+                                                    })}
+
                                                   </div>
                                                 </div>
                                               </div>
@@ -680,9 +753,9 @@ console.log("state")
                                           </div>
                                   </div>
                              
-                            <button disabled={loader ? true : false} className='bg-accent uppercase w-full hover:shadow-accent/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 font-bold mt-5'>
+                            <button disabled={loader_team ? true : false} className='bg-accent uppercase w-full hover:shadow-accent/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 font-bold mt-5'>
                                 {
-                                       loader ? <PropagateLoader color='#fff'cssOverride = {overRideStyle}/> :'ADD ROLE'
+                                       loader_team ? <PropagateLoader color='#fff'cssOverride = {overRideStyle}/> : <div className="flex w-full justify-center items-start gap-1">ADD TEAM <RiTeamFill size={20} className='' /></div>
                                 }
                             </button>
                          </form>
