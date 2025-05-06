@@ -28,9 +28,6 @@ const Teams = () => {
     const [searchValueSv, setSearchValueSv] = useState('')
     const [searchValueMg, setSearchValueMg] = useState('')
     const [searchValueRf, setSearchValueRf] = useState('')
-
-    const [selectedRandFs, setSelectedRandFs] = useState([]); 
-    
     const [parPage, setParpage] = useState(5)
     const [show,setShow] = useState(false)
      const [showSupervisors, setShowSupervisors] = useState(false)
@@ -197,20 +194,6 @@ useEffect(() => {
 
 
 // NEW SHIT
-const handleFeatureToggle = (featureName) => {
-  // Prevent adding more than 3 features
-  if (selectedRandFs.includes(featureName)) {
-      // Deselect feature
-      setSelectedRandFs((prev) => prev.filter((item) => item !== featureName));
-  } else if (selectedRandFs.length < 3) {
-      // Add feature if limit is not reached
-      setSelectedRandFs((prev) => [...prev, featureName]);
-  } else {
-      toast.error('You can only select up to 3 features.', { autoClose: 3000 });
-  }
-};
-
-
   useEffect(() => {
     console.log("NGIIIIIIII")
     dispatch(get_supervisors({
@@ -555,9 +538,6 @@ console.log("state")
                                               </div>
                                             )}
                                           </div>
-
-
-                                          {/* MANAGERS */}
                                           <div className="w-full pt-3">
                                             <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">ASSIGN A MANAGER</div>
                                             
@@ -617,20 +597,20 @@ console.log("state")
                                             )}
                                           </div>
 
-                                          {/* RandFs */}
                                           <div className="w-full pt-3">
-                                            <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">ASSIGN A Rank and File Employees</div>
+                                            <div className="font-bold h-3 text-gray-500 text-xs uppercase mb-2">ASSIGN RANK AND FILE EMPLOYEES</div>
                                             
                                             <input
-                                              readOnly
-                                              onClick={() => setShowRandF(true)}
-                                              value={state["managerName"] || ""}
-                                              className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
-                                              type="text"
-                                              placeholder="Rank and file Employees"
-                                              name="randfName"
-                                              id="randfName"
+                                            readOnly
+                                            onClick={() => setShowRandF(true)}
+                                            value={Array.isArray(state.rfName) ? state.rfName.join(', ') : ""}
+                                            className="w-full bg-transparent px-4 py-1 focus:border-accent outline-none border-2 border-slate-500 rounded-md text-slate-500"
+                                            type="text"
+                                            placeholder="Rank and Files"
+                                            name="rfName"
+                                            id="rfName"
                                             />
+
                             
                                             {/* Modal */}
                                             {showRandF && (
@@ -653,33 +633,49 @@ console.log("state")
                                                     value={searchValueRf}
                                                     className="mb-3 w-full px-4 py-1 border-b-2 border-slate-700 bg-transparent outline-none"
                                                     type="text"
-                                                    placeholder="Search Rank and File Employees"
+                                                    placeholder="Search Rank and file Employee"
                                                     name="rfName"
                                                     id="rfName"
                                                   />
                             
                                                   <div className="max-h-48 overflow-y-auto">
-                                                  {allRandFs.map((f, i) => (
-                                                <label
-                                                    key={i}
-                                                    className="flex items-center px-4 py-2 hover:bg-primary hover:text-text_color rounded-md w-full cursor-pointer"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        className="mr-2"
-                                                        checked={selectedRandFs.includes(f.name)} // Check if feature is selected
-                                                        onChange={() => handleFeatureToggle(f.name)}
-                                                    />
-                                                    {f.name}
-                                                </label>
-                                            ))}
+                                                    {allRandFs.map((c, index) => (
+                                                      <div
+                                                        key={index}
+                                                        onClick={() => {
+                                                            const isSelected = Array.isArray(state.rf) ? state.rf.includes(c._id) : false;
+
+                                                            if (isSelected) {
+                                                            setState({
+                                                                ...state,
+                                                                rfName: Array.isArray(state.rfName) ? state.rfName.filter(name => name !== c.name) : [],
+                                                                rf: Array.isArray(state.rf) ? state.rf.filter(id => id !== c._id) : [],
+                                                            });
+                                                            } else {
+                                                            setState({
+                                                                ...state,
+                                                                rfName: Array.isArray(state.rfName) ? [...state.rfName, c.name] : [c.name],
+                                                                rf: Array.isArray(state.rf) ? [...state.rf, c._id] : [c._id],
+                                                            });
+                                                            }
+                                                          }}
+                                                          
+                                                        className="cursor-pointer py-2 px-4 hover:bg-accent hover:text-slate-300 font-semibold rounded-md"
+                                                      >
+                                                        {c.name}
+                                                      </div>
+                                                    ))}
                                                   </div>
                                                 </div>
                                               </div>
-                                            )}  
+                                            )}
                                           </div>
-                                  </div>
+                                       
+                              </div>
                              
+                      
+                          
+                     
                             <button disabled={loader ? true : false} className='bg-accent uppercase w-full hover:shadow-accent/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3 font-bold mt-5'>
                                 {
                                        loader ? <PropagateLoader color='#fff'cssOverride = {overRideStyle}/> :'ADD ROLE'
