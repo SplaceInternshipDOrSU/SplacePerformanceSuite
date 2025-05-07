@@ -12,18 +12,20 @@ import { toast } from 'react-hot-toast';
 import { FaExclamationCircle } from "react-icons/fa";
 
 import {useSelector, useDispatch} from 'react-redux'
-import { teamAdd ,messageClear, roles_get ,roleDelete,get_role_by_id,roleEdit,editErrorClear,get_supervisors,get_managers,get_rankandfile_employees,get_active_ceo,get_active_coo} from '../../store/Reducers/teamReducer';
+import { teamAdd ,messageClear, teams_get ,roleDelete,roleEdit,editErrorClear,get_supervisors,get_managers,get_rankandfile_employees,get_active_ceo,get_active_coo} from '../../store/Reducers/teamReducer';
 import Search from './../components/Search';
 import Modal from './../../Components/Modal/modal';
 import { IoIosCloseCircle } from "react-icons/io";
 import { RiTeamFill } from "react-icons/ri";
 // import UserRoles from './UserRoles copy';
 import { FaCheckCircle } from "react-icons/fa";
+import { Tooltip } from 'react-tooltip'
+import { IoMdCopy } from "react-icons/io";
 
 const Teams = () => {
     const dispatch = useDispatch()
-    const {roles,totalRoles,totalPages, loader_delete,loader_role,role,editError, editErrorMessage} = useSelector(state=>state.admin)
-    const { loader_team, successMessage, errorMessage,supervisors, managers, RandFs,coo, ceo} = useSelector(state=>state.team)
+    const { loader_delete,loader_role,role,editError, editErrorMessage} = useSelector(state=>state.admin)
+    const { teams,totalTeams,totalPages,loader_team, successMessage, errorMessage,supervisors, managers, RandFs,coo, ceo} = useSelector(state=>state.team)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [searchValue, setSearchValue] = useState('')
@@ -108,7 +110,7 @@ if(errorMessage){
         searchValue : ""
 
     }
-    dispatch(roles_get(obj))
+    dispatch(teams_get(obj))
 }
 },[successMessage, errorMessage])
 
@@ -119,7 +121,7 @@ useEffect(()=>{
         searchValue
 
     }
-    dispatch(roles_get(obj))
+    dispatch(teams_get(obj))
 }, [searchValue, currentPage, parPage])
 
 
@@ -130,14 +132,14 @@ const [selectedRoleId, setSelectedRoleId] = useState(null);
 const [selectedRoleName, setSelectedRoleName] = useState(null);
 
 const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-// const [selectedRoleId, setSelectedRoleId] = useState(null);
-// const [selectedRoleName, setSelectedRoleName] = useState(null);
+// const [showTeamRandFs, setShowTeamRandFs] = useState(false);
 
-const openModal = (roleId,role) => {
-    setSelectedRoleId(roleId);
-    setSelectedRoleName(role);
-  setIsModalOpen(true);
-};
+
+// const openModal = (roleId,role) => {
+//     setSelectedRoleId(roleId);
+//     setSelectedRoleName(role);
+//   setIsModalOpen(true);
+// };
 
 const closeModal = () => {
   setSelectedRoleId(null);
@@ -158,12 +160,12 @@ const handleDelete = (id)=>{
 
 
 // EDIT MODAL
-const openEditModal = (roleId,role) => {
-    dispatch(get_role_by_id(roleId))
-    setSelectedRoleId(roleId);
-    setSelectedRoleName(role);
-    setIsEditModalOpen(true);
-};
+// const openEditModal = (roleId,role) => {
+//     dispatch(get_role_by_id(roleId))
+//     setSelectedRoleId(roleId);
+//     setSelectedRoleName(role);
+//     setIsEditModalOpen(true);
+// };
 
 const closeEditModal = () => {
   setSelectedRoleId(null);
@@ -333,8 +335,40 @@ const randfSearch = (e) => {
 }
 
 
+
 console.log(state)
 console.log("state")
+
+
+const [activeTeamIndex, setActiveTeamIndex] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // For rankandfiles search
+
+  const handleOpenModal = (index) => {
+    setActiveTeamIndex(index);
+    setSearchQuery(''); // Reset search when opening new modal
+  };
+
+  const copyToClipboard = (email) => {
+    navigator.clipboard.writeText(email);
+    toast.success("Copied to clipboard!")
+    // alert('Email copied to clipboard!');
+
+    
+  };
+  const [showEmail, setShowEmail] = useState(null); 
+  const [showManagerEmail, setShowManagerEmail] = useState(null); 
+  const [rankAndFileToggles, setRankAndFileToggles] = useState({});
+
+  // Toggle email visibility for the specific supervisor clicked
+  const handleSupervisorClick = (index) => {
+    // Set the clicked supervisor's email to toggle on/off
+    setShowEmail(showEmail === index ? null : index); // Toggle logic
+  };
+  const handleManagerClick = (index) => {
+    // Set the clicked supervisor's email to toggle on/off
+    setShowManagerEmail(setShowManagerEmail === index ? null : index); // Toggle logic
+  };
+
 // NEW SHIT
 
 
@@ -345,100 +379,185 @@ console.log("state")
             <button onClick={()=> setShow(true)} className='bg-accent shadow-lg hover:shadow-accent/50 px-4 py-2 cursor-pointer text-white rounded-md text-sm font-semibold'>ADD EMPLOYEE ROLE</button>
         </div>
         <div className="flex flex-wrap w-full ">
-            <div className="w-full lg:w-8/12">
+            <div className="w-full lg:w-9/12">
                 <div className="w-full p-4 bg-[#283046] rounded-md ">
                     <Search setParpage={setParpage} setSearchValue={setSearchValue} searchValue={searchValue}/>
                     <div className="relative overflow-x-auto">
-                        <table className='w-full text-sm text-left text-[#d0d2d6]'>
-                            <thead className='text-sm text-[#d0d2d6] uppercase border-b border-slate-700'>
-                            <tr>
-                                <th scope='col' className='py-3 px-4'>No</th>
-                                <th scope='col' className='py-3 px-4'>Name</th>
-                                <th scope='col' className='py-3 px-4'>Description</th>
-                                <th scope='col' className='py-3 px-4 text-end'>Actions</th>
-                                {/* <th scope='col' className='py-3 px-4'>Name</th>
-                                <th scope='col' className='py-3 px-4'>Action</th> */}
-                            </tr>
+                    <table className="w-full text-sm text-left text-[#d0d2d6]">
+                      <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
+                        <tr>
+                          <th scope="col" className="py-3 px-4">No</th>
+                          <th scope="col" className="py-3 px-4">Name</th>
+                          <th scope="col" className="py-3 px-4">Supervisor</th>
+                          <th scope="col" className="py-3 px-4">Manager</th>
+                          <th scope="col" className="py-3 px-4">Rank and Files</th>
+                          <th scope="col" className="py-3 px-4 text-end">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {loader_delete ? (
+                          <tr>
+                            <td colSpan="6" className="py-10 text-center relative">
+                              <div className="absolute inset-0 bg-[#283046] flex justify-center items-center">
+                                <h2>Loading...</h2>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : teams && teams.length > 0 ? (
+                          teams.map((team, i) => (
+                            <tr key={i}>
+                              <td className="py-2 px-4 font-medium whitespace-nowrap">{team.no}</td>
+                              <td className="py-2 px-4 font-medium whitespace-nowrap">
+                                <span data-tooltip-id="my-tooltip" data-tooltip-content="Hello world!">
+                                  {team.name}
+                                </span>
+                              </td>
+                              
+                              <td className="py-2 px-4 font-medium max-w-[220px]">
+                                <span
+                                  onClick={() => handleSupervisorClick(i)} // Toggle click on supervisor name/email
+                                  className="cursor-pointer text-slate-300"
+                                >
+                                  {showEmail === i ? (
+                                    <div className="flex items-center">
+                                      <span>{team.supervisor.email}</span>
+                                      <button
+                                        className="text-white ml-2"
+                                        onClick={(e) => {
+                                          e.stopPropagation(); // Prevent parent click handler
+                                          copyToClipboard(team.supervisor.email);
+                                        }}
+                                      >
+                                        <IoMdCopy size={18} />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <span>{team.supervisor.name}</span>
+                                  )}
+                                </span>
+                              </td>
+              
+             
+                              <td className="py-2 px-4 font-medium max-w-[220px]"> <span
+                                  onClick={() => handleManagerClick(i)} // Toggle click on supervisor name/email
+                                  className="cursor-pointer text-slate-300"
+                                >
+                                  {showManagerEmail === i ? (
+                                    <div className="flex items-center">
+                                      <span>{team.manager.email}</span>
+                                      <button
+                                        className="text-white ml-2"
+                                        onClick={(e) => {
+                                          e.stopPropagation(); // Prevent parent click handler
+                                          copyToClipboard(team.manager.email);
+                                        }}
+                                      >
+                                        <IoMdCopy size={18} />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <span>{team.manager.name}</span>
+                                  )}
+                                </span></td>
+                             
+                              <td className="py-2 px-4 font-medium max-w-[220px]">
+                                <button onClick={() => handleOpenModal(i)}>View all Rank and Files</button>
+                              </td>
+                              <td className="py-2 px-4 font-medium whitespace-nowrap text-end">
+                                {/* Actions buttons */}
+                              </td>
 
-                            </thead>
-                            <tbody>
-                                {
-                                    loader_delete ? 
-                                    (
-                                    <div className="absolute bg-[#283046] top-0 bottom-0 left-0 right-0 w-full h-full text-center flex justify-center items-center ">
-                                        <h2>Loading...</h2>
+                              {/* Modal */}
+                              {activeTeamIndex === i && (
+                                  <td colSpan="6" className="fixed inset-0 z-[99999] bg-gray-500/20 flex items-center justify-center">
+                                    <div className="bg-white rounded-lg w-[400px] max-w-md p-4 h-[400px] shadow-xl text-slate-800">
+                                      
+                                      {/* Modal Header */}
+                                      <div className="flex justify-between items-center mb-4">
+                                        <h2 className="font-bold text-lg">
+                                          Team "<span className="text-accent font-black">{team.name}</span>" Rank and Files
+                                        </h2>
+                                        <button onClick={() => setActiveTeamIndex(null)} className="text-xl">
+                                          <IoIosCloseCircle size={24} />
+                                        </button>
                                       </div>
-                                    )
-                                    :
-                                    (
-                                        <div className="">
-                                            
-                                        </div>
-                                    )
-                                }
-                            {roles && roles.length > 0 ? (
-                                    roles.map((role, i) => (
-                                    <tr key={i}>
-                                        <td className="py-1 px-4 font-medium whitespace-nowrap">{i + 1}</td>
-                                        <td className="py-1 px-4 font-medium whitespace-nowrap">
-                                          <span>{role.name}</span>
-                                        </td>
-                                        <td className="py-1 px-4 font-medium text-wrap max-w-[220px]">
-                                         <span>{role.description}</span>
-                                        </td>
-                                        <td className="py-1 px-4 font-medium whitespace-nowrap">
-                                        <div className="flex justify-end items-center gap-4">
-                                            <button
-                                                onClick={() => openModal(role._id, role.name)}
-                                                className={`p-2 rounded flex justify-center items-center gap-1 font-bold ${
-                                                                loader_delete === role._id
-                                                                ? "bg-gray-500 cursor-not-allowed"
-                                                                : "bg-red-500 hover:shadow-lg hover:shadow-red-500/50"
-                                                            }`}
-                                                disabled={loader_delete === role._id}
-                                                >
-                                                {loader_delete === role._id ? (
-                                                    <span className="flex items-center gap-2">
-                                                    Deleting... <span className="loader"></span>
-                                                    </span>
+
+                                      {/* Search Input */}
+                                      <input
+                                        type="text"
+                                        placeholder="Search rank and files..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full p-2 mb-3 border rounded-md text-sm"
+                                      />
+
+                                      {/* Filtered List */}
+                                      <div className="max-h-48 overflow-y-auto space-y-2">
+                                        {team.rankandfile
+                                          ?.filter((rf) => rf.name.toLowerCase().startsWith(searchQuery.toLowerCase()))
+                                          .map((rf, index) => {
+                                            const isEmailVisible = rankAndFileToggles[`${i}-${index}`];
+
+                                            return (
+                                              <div
+                                                key={index}
+                                                className="py-2 px-4 bg-slate-100 rounded-md text-slate-700 font-semibold cursor-pointer flex items-center justify-between hover:bg-slate-200 transition"
+                                                onClick={() =>
+                                                  setRankAndFileToggles((prev) => ({
+                                                    ...prev,
+                                                    [`${i}-${index}`]: !isEmailVisible,
+                                                  }))
+                                                }
+                                              >
+                                                {isEmailVisible ? (
+                                                  <div className="flex items-center">
+                                                    <span>{rf.email}</span>
+                                                    <button
+                                                      className="ml-2 text-blue-600"
+                                                      onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        copyToClipboard(rf.email);
+                                                      }}
+                                                    >
+                                                      <IoMdCopy size={18} />
+                                                    </button>
+                                                  </div>
                                                 ) : (
-                                                    <span className="flex items-center gap-2">
-                                                    DELETE ROLE <FaTrash />
-                                                    </span>
+                                                  <span>{rf.name}</span>
                                                 )}
-                                            </button>
-                                            <button
-                                                onClick={() => openEditModal(role._id, role.name)}
-                                                className={`p-2 rounded flex justify-center items-center gap-1 font-bold ${
-                                                                loader_delete === role._id
-                                                                ? "bg-gray-500 cursor-not-allowed"
-                                                                : "bg-blue-500 hover:shadow-lg hover:shadow-blue-500/50"
-                                                            }`}
-                                                disabled={loader_delete === role._id}
-                                                >
-                                               
-                                                    <span className="flex items-center gap-2">
-                                                    EDIT ROLE <MdEdit />
-                                                    </span>
-                                                
-                                            </button>
-                                        </div>
-                                        </td>
-                                    </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                    <td colSpan="4" className="px-4 text-center font-medium py-5">No Roles available.</td>
-                                    </tr>
+                                              </div>
+                                            );
+                                          })}
+
+                                        {team.rankandfile?.filter((rf) =>
+                                          rf.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+                                        ).length === 0 && (
+                                          <div className="text-center text-slate-500">No rank and files found</div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </td>
                                 )}
-                            </tbody>
-                        </table>
+
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="6" className="px-4 text-center font-medium py-5">No Roles available.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+
                     </div>   
-                    <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+                    <div className="w-full flex justify-between mt-4 bottom-4 right-4">
+                    <div className="pl-3 text-xs font-semibold text-slate-100">
+                        <h2>Page <span className='text-accent'>{currentPage}</span> of {totalPages}</h2>
+                    </div>
                          <Pagination
                             pageNumber = {currentPage}
                             setPageNumber = {setCurrentPage}
-                            totalItem = {totalRoles}
+                            totalItem = {totalTeams}
                             parPage = {parPage}
                             showItem = {totalPages}
                         />
@@ -525,7 +644,12 @@ console.log("state")
                 </div>
                 )}
 
-                        <div className={`w-[320px] lg:w-4/12 lg:relative lg:right-0 fixed ${show ? 'right-0' : '-right-[340px]'} z-[9999] top-0 transition-all duration-500`}>
+              <Tooltip id="my-tooltip" placement="right" />
+
+
+
+           
+                        <div className={`w-[320px] lg:w-3/12 lg:relative lg:right-0 fixed ${show ? 'right-0' : '-right-[340px]'} z-[9999] top-0 transition-all duration-500`}>
                 <div className="w-full pl-5">
                     <div className="bg-[#283046] rounded-md h-screen lg:h-auto px-6 py-6 lg:rounded-md text-slate-100">
                         <div className="flex justify-between items-center py-3">
@@ -588,7 +712,7 @@ console.log("state")
                             
                                             {/* Modal */}
                                             {showSupervisors && (
-                                              <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
+                                              <div  className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
                                                 <div className="bg-white rounded-lg w-[400px] h-[300px] max-w-md p-4 shadow-xl text-slate-800">
                                                   <div className="flex justify-between items-center mb-4">
                                                     <h2 className="font-bold text-lg">Select Supervisor </h2>
@@ -642,7 +766,7 @@ console.log("state")
                             
                                             {/* Modal */}
                                             {showManagers && (
-                                              <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
+                                              <div  className="fixed inset-0 z-[99] bg-gray-500/50 flex items-center justify-center">
                                                 <div className="bg-white rounded-lg w-[400px] h-[300px] max-w-md p-4 shadow-xl text-slate-800">
                                                   <div className="flex justify-between items-center mb-4">
                                                     <h2 className="font-bold text-lg">Select Manager </h2>
@@ -703,7 +827,7 @@ console.log("state")
                             
                                             {/* Modal */}
                                             {showRandF && (
-                                              <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center">
+                                              <div className="fixed inset-0 z-50 bg-gray-500/50 flex items-center justify-center ">
                                                 <div className="bg-white rounded-lg w-[400px] h-[300px] max-w-md p-4 shadow-xl text-slate-800">
                                                   <div className="flex justify-between items-center mb-4">
                                                     <h2 className="font-bold text-lg">Select Rank and File Employees </h2>

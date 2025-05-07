@@ -141,6 +141,35 @@ export const teamAdd = createAsyncThunk(
   }
 );
 
+export const teams_get = createAsyncThunk(
+  "team/teams_get",
+  async (
+    { parPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue, getState }
+  ) => {
+    const {token} = getState().auth
+    const config = {
+      headers : {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+
+    
+    try {
+      const { data } = await api.get(
+        `/teams-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+        config
+      );
+      console.log("TEAMS GET")
+      console.log(data)
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 
 // SPLACE_BS
@@ -785,7 +814,8 @@ export const teamReducer = createSlice({
     RandFs: {},
     coo: '',
     ceo: '',
-    team: {}
+    team: {},
+    teams : {}
     
   },
   reducers: {
@@ -1156,6 +1186,14 @@ export const teamReducer = createSlice({
                   state.loader_team = false;
                   state.successMessage = payload.payload.message;
                   state.team = payload.payload.team
+                });
+
+                builder.addCase(teams_get.fulfilled, (state, payload) => {
+                  state.loader = false;
+                  // state.category = payload.payload.message;
+                  state.totalTeams = payload.payload.totalTeams;
+                  state.totalPages = payload.payload.totalPages;
+                  state.teams = payload.payload.teams;
                 });
             // SPLACE BS
     

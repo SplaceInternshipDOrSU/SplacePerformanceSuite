@@ -71,12 +71,13 @@ const AdminLogin = () => {
 
 
     return (
-        <div className='min-w-screen min-h-screen bg-main-bg flex justify-center items-center relative' style={{
-            backgroundImage: "url('/images/background.gif')",
+       <div className='min-w-screen min-h-screen bg-main-bg flex justify-center items-center relative' style={{
+            backgroundImage: "url('/images/background.jpeg')",
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}>
-            <div className="absolute inset-0 bg-gray-900 opacity-15"></div>
+            backgroundPosition: 'center bottom',
+            }}>
+
+            <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
             <div className="w-[400px] text-[#d0d2d6] p-2 shadow-xl rounded-md py-10 px-2 bg-white z-10">
                 <div className="bg-transparent p-4 rounded-md">
                     <div className="h-[70px] flex justify-center flex-col items-center">

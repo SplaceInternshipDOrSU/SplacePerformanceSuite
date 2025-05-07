@@ -2,33 +2,41 @@ import React from 'react'
 import {BsChevronDoubleLeft, BsChevronDoubleRight} from 'react-icons/bs'
 
 const Pagination = ({pageNumber, setPageNumber, totalItem, parPage, showItem}) => {
-  let totalPage = Math.ceil(totalItem / parPage)
-  let startPage = pageNumber
+  let totalPage = Math.ceil(totalItem / parPage);
 
-  let dif = totalPage - pageNumber;
-
-  if(dif<=showItem){
-    startPage = totalPage - showItem
+  let startPage, endPage;
+  
+  if (totalPage <= showItem) {
+    startPage = 1;
+    endPage = totalPage;
+  } else {
+    let dif = totalPage - pageNumber;
+    startPage = pageNumber;
+  
+    if (dif <= showItem) {
+      startPage = totalPage - showItem + 1;
+    }
+  
+    if (startPage <= 0) {
+      startPage = 1;
+    }
+  
+    endPage = startPage + showItem - 1;
   }
-
-  let endPage = startPage<0 ? showItem : showItem + startPage
-
-  if(startPage<=0){
-    startPage = 1
-  }
+  
 
   const createBtn = ()=>{
     const btns = []
-    for(let i = startPage; i<endPage ; i++){
+    for (let i = startPage; i <= endPage; i++) {
       btns.push(
-        <li key={i} onClick={()=>setPageNumber(i)} className={`
+        <li key={i} onClick={() => setPageNumber(i)} className={`
           ${pageNumber === i ? 'bg-accent shadow-sm shadow-indigo-500/50 text-white' : 'bg-slate-700 hover:bg-accent shadow-sm hover:shadow-indigo-500/50 hover:text-[#d0d2d6]'} w-[33px] h-[33px] rounded-md flex items-center justify-center cursor-pointer text-white`
-          
         }>
           {i}
         </li>
       )
     }
+    
     return btns
 
   }
