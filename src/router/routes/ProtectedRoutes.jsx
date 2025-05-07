@@ -50,7 +50,7 @@ const ProtectedRoutes = ({route,children}) => {
           }
       }
   } else {
-      return <Navigate to='/login' replace />
+      return <Navigate to='/user' replace />
   }
 }
 

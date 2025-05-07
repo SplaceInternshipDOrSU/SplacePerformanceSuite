@@ -17,7 +17,7 @@ const Home = () => {
   else if(category === 'manager') return <Navigate to='manager/dashboard' replace/>
   else if(category === 'coo') return <Navigate to='coo/dashboard' replace/>
   else if(category === 'ceo') return <Navigate to='ceo/dashboard' replace/>
-  else return <Navigate to='/login' replace/>
+  else return <Navigate to='/user' replace/>
 }
 // rankandfile, supervisor, manager,coo,ceo
 export default Home

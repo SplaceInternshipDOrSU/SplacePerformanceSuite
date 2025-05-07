@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+const User = lazy(() => import("../../views/auth/User"));
 const Login = lazy(() => import("../../views/auth/Login"));
 const Register = lazy(() => import("../../views/auth/Register"));
 const AdminLogin = lazy(() => import("../../views/auth/AdminLogin"));
@@ -16,6 +17,12 @@ const publicRoutes = [
   {
     path: "/",
     element: React.createElement(Home)
+
+    // element: <Home />
+  },
+  {
+    path: "/user",
+    element: React.createElement(User)
 
     // element: <Home />
   },

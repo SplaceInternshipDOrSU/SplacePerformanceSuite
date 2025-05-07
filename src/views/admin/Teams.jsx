@@ -408,7 +408,7 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                             <tr key={i}>
                               <td className="py-2 px-4 font-medium whitespace-nowrap">{team.no}</td>
                               <td className="py-2 px-4 font-medium whitespace-nowrap">
-                                <span data-tooltip-id="my-tooltip" data-tooltip-content="Hello world!">
+                                <span >
                                   {team.name}
                                 </span>
                               </td>
@@ -420,7 +420,7 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                 >
                                   {showEmail === i ? (
                                     <div className="flex items-center">
-                                      <span>{team.supervisor.email}</span>
+                                      <span data-tooltip-id="my-tooltip" data-tooltip-content="Click to view Name">{team.supervisor.email}</span>
                                       <button
                                         className="text-white ml-2"
                                         onClick={(e) => {
@@ -432,7 +432,7 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                       </button>
                                     </div>
                                   ) : (
-                                    <span>{team.supervisor.name}</span>
+                                    <span data-tooltip-id="my-tooltip" data-tooltip-content="Click to view Email">{team.supervisor.name}</span>
                                   )}
                                 </span>
                               </td>
@@ -444,7 +444,7 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                 >
                                   {showManagerEmail === i ? (
                                     <div className="flex items-center">
-                                      <span>{team.manager.email}</span>
+                                      <span data-tooltip-id="my-tooltip" data-tooltip-content="Click to view Name">{team.manager.email}</span>
                                       <button
                                         className="text-white ml-2"
                                         onClick={(e) => {
@@ -456,12 +456,12 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                       </button>
                                     </div>
                                   ) : (
-                                    <span>{team.manager.name}</span>
+                                    <span data-tooltip-id="my-tooltip" data-tooltip-content="Click to view Email">{team.manager.name}</span>
                                   )}
                                 </span></td>
                              
                               <td className="py-2 px-4 font-medium max-w-[220px]">
-                                <button onClick={() => handleOpenModal(i)}>View all Rank and Files</button>
+                                <button className='flex justify-center gap-1 bg-accent px-2 py-1 rounded-xs uppercase font-bold text-center items-center hover:bg-white hover:text-accent shadow-2xl hover:shadow-accent' onClick={() => handleOpenModal(i)}>View all <RiTeamFill className='mb-[3px]' size={16}/></button>
                               </td>
                               <td className="py-2 px-4 font-medium whitespace-nowrap text-end">
                                 {/* Actions buttons */}
@@ -475,14 +475,14 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                       {/* Modal Header */}
                                       <div className="flex justify-between items-center mb-4">
                                         <h2 className="font-bold text-lg">
-                                          Team "<span className="text-accent font-black">{team.name}</span>" Rank and Files
+                                          Team "<span  className="text-accent font-black">{team.name}</span>" Rank and Files
                                         </h2>
                                         <button onClick={() => setActiveTeamIndex(null)} className="text-xl">
                                           <IoIosCloseCircle size={24} />
                                         </button>
                                       </div>
 
-                                      {/* Search Input */}
+                                      {/* Search Input */}  
                                       <input
                                         type="text"
                                         placeholder="Search rank and files..."
@@ -501,7 +501,7 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                             return (
                                               <div
                                                 key={index}
-                                                className="py-2 px-4 bg-slate-100 rounded-md text-slate-700 font-semibold cursor-pointer flex items-center justify-between hover:bg-slate-200 transition"
+                                                className="py-2 px-4 bg-slate-100 rounded-md text-slate-700 font-semibold cursor-pointer flex items-center justify-between hover:bg-accent hover:text-slate-100 transition"
                                                 onClick={() =>
                                                   setRankAndFileToggles((prev) => ({
                                                     ...prev,
@@ -511,9 +511,9 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                               >
                                                 {isEmailVisible ? (
                                                   <div className="flex items-center">
-                                                    <span>{rf.email}</span>
+                                                    <span data-tooltip-id="my-tooltip" data-tooltip-content="Click to view Name">{rf.email}</span>
                                                     <button
-                                                      className="ml-2 text-blue-600"
+                                                      className="ml-2 text-slate-200"
                                                       onClick={(e) => {
                                                         e.stopPropagation();
                                                         copyToClipboard(rf.email);
@@ -523,7 +523,7 @@ const [activeTeamIndex, setActiveTeamIndex] = useState(null);
                                                     </button>
                                                   </div>
                                                 ) : (
-                                                  <span>{rf.name}</span>
+                                                  <span data-tooltip-id="my-tooltip" data-tooltip-content="Click to view Email">{rf.name}</span>
                                                 )}
                                               </div>
                                             );

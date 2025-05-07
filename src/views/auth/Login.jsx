@@ -23,7 +23,6 @@ const Login = () => {
     const dispatch = useDispatch()
     const loader = false;
     const {errorMessage , successMessage} = useSelector(state=>state.auth)
-     const {category} = useSelector(state=>state.auth)
     // const { loader, errorMessage , successMessage} = useSelector(state=>state.auth)
 
      const [showPassword, setShowPassword] = useState(false);
@@ -61,19 +60,7 @@ const Login = () => {
     }, [errorMessage, successMessage])
     // const {t} = useTranslation()
 
-      useEffect(() =>{
     
-            if(category === "admin")
-            {
-                // toast.error("PLEASE LOGOUT FIRST")
-                navigate("/admin/dashboard")
-            }
-           
-      
-    
-    
-    //   if(category === 'admin') return <Navigate to='admin/dashboard' replace/>
-        },[category,dispatch])
     
   return (
     <div className='min-w-screen min-h-screen bg-main-bg flex justify-center items-center relative' style={{
