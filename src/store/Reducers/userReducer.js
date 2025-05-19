@@ -422,10 +422,7 @@ export const userReducer = createSlice({
 
       if (payload.payload.user) {
         state.users = [...state.users, payload.payload.user];
-      }
-      // });
-     
-    
+      }   
     });
     
   },

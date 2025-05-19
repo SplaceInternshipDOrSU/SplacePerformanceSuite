@@ -6,6 +6,9 @@ const UserDashboard = lazy(() =>
 const PendingUser = lazy(() =>
   import("../../views/PendingUser")
 );
+const selfRate = lazy(() =>
+  import("../../views/user/selfRate")
+);
 
 
 export const supervisorRoutes = [
@@ -22,5 +25,12 @@ export const supervisorRoutes = [
     category: "supervisor",
     status: "active",
   },
+
+  {
+      path: "/supervisor/self-rate/",
+      element: React.createElement(selfRate),
+      category: "supervisor",
+    status: "active",
+    },
  
 ];

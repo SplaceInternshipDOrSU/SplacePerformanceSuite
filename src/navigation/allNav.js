@@ -82,14 +82,52 @@ export const allNav = [
     role: "team-lead",
     path: "/team-lead/dashboard",
   },
+
+  // RANK AND FILE
   {
     id: 4,
     title: "Dashboard",
     icon: React.createElement(AiFillDashboard),
     // icon: <AiFillDashboard />,
-    category: "Rank and File",
+    category: "rankandfile",
     path: "/rank-and-file/dashboard",
   },
+  {
+    id: 4,
+    title: "Self Rate",
+    icon: React.createElement(AiFillDashboard),
+    // icon: <AiFillDashboard />,
+    category: "rankandfile",
+    path: "/rank-and-file/self-rate/",
+  },
+    // RANK AND FILE
+
+
+
+
+
+
+// SUPERVISOR
+  {
+    id: 4,
+    title: "Dashboard",
+    icon: React.createElement(AiFillDashboard),
+    // icon: <AiFillDashboard />,
+    category: "supervisor",
+    path: "/supervisor/dashboard",
+  },
+   {
+    id: 4,
+    title: "Self Rate",
+    icon: React.createElement(AiFillDashboard),
+    // icon: <AiFillDashboard />,
+   category: "supervisor",
+    path: "/supervisor/self-rate/"
+  },
+// SUPERVISOR
+
+
+// MANAGER
   {
     id: 4,
     title: "Dashboard",
@@ -98,6 +136,16 @@ export const allNav = [
     category: "manager",
     path: "/manager/dashboard",
   },
+     {
+    id: 4,
+    title: "Self Rate",
+    icon: React.createElement(AiFillDashboard),
+    // icon: <AiFillDashboard />,
+   category: "manager",
+    path: "/manager/self-rate/"
+  },
+// MANAGER
+
   {
     id: 4,
     title: "Dashboard",

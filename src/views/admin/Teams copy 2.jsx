@@ -371,6 +371,7 @@ const Teams = () => {
   const handleManagerClick = (index) => {
     // Set the clicked supervisor's email to toggle on/off
     setShowManagerEmail(showManagerEmail === index ? null : index); // Toggle logic
+    // setShowManagerEmail(showManagerEmail === index ? null : index); // Toggle logic
   };
 
   // NEW SHIT
@@ -476,7 +477,7 @@ const Teams = () => {
                         <td className="py-2 px-4 font-medium max-w-[220px]">
                           <span
                             onClick={() => handleManagerClick(i)} // Toggle click on supervisor name/email
-                            className="cursor-pointer text-slate-300"
+                            className="cursor-pointer text-red-300"
                           >
                             {showManagerEmail === i ? (
                               <div className="flex items-center">

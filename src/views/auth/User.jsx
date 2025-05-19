@@ -24,16 +24,16 @@ const User = () => {
       }}>
       
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
-        <div className="relative z-10 w-[350px] lg:w-[400px] bg-white rounded-lg text-[#d0d2d6] p-2 shadow-xl">
+        <div className="relative z-10 w-10/12 lg:w-[500px] bg-white rounded-lg text-[#d0d2d6] p-2 shadow-xl">
             <div className="p-4 text-center">
-                <h2 className='text-lg mb-1 text-center text-slate-800 font-semibold'>Welcome to <Link to={'/admin/login'} className='font-extrabold text-accent italic'>SplacHR</Link></h2>
+                <h2 className='text-2xl mb-1 text-center text-slate-800 font-semibold'>Welcome to <Link to={'/admin/login'} className='font-extrabold text-accent italic'>SplacHR</Link></h2>
                 <p className='text-xs text-slate-400 font-bold'>which user are you?</p>
-                <div className="flex justify-between gap-1 mt-4">
-                    <Link to={'/login'} className="w-6/12 bg-accent hover:bg-white hover:text-accent border-accent border-4  rounded-md flex justify-center flex-col items-center py-5 transition-all duration-200">
+                <div className="flex justify-between gap-1 mt-4 ">
+                    <Link to={'/login'} className="w-6/12 bg-accent hover:bg-white hover:text-accent border-accent border-4  rounded-md flex justify-center flex-col items-center py-5 transition-all duration-300 text-white ">
                     <FaRegUserCircle size={50} />
                         <h2 className='font-bold'>USER</h2>
                     </Link >
-                    <Link to={'/admin/login'} className="w-6/12 bg-accent hover:bg-white hover:text-accent border-accent border-4  rounded-md flex justify-center flex-col items-center py-5 transition-all duration-200">
+                    <Link to={'/admin/login'} className="w-6/12 bg-accent hover:bg-white hover:text-accent border-accent border-4  rounded-md flex justify-center flex-col items-center py-5 transition-all duration-300 text-white">
                     <MdAdminPanelSettings size={50}/>
                         <h2 className='font-bold'>ADMIN</h2>
                     </Link >

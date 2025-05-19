@@ -26,7 +26,10 @@ const UserDetails = () => {
             userId,
             status
         }))
-        navigate('/admin/dashboard/active-users')        
+        if(successMessage){
+            navigate('/admin/dashboard/active-users')
+        }
+                
         // navigate('/admin/dashboard/users')
     }
 
