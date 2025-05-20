@@ -35,7 +35,7 @@ export const ratingAdd = createAsyncThunk(
     }
   );
 
-  export const fetchSelfRating = createAsyncThunk(
+export const fetchSelfRating = createAsyncThunk(
   "rating/fetchSelfRating",
   async ({ userId, quarter, year }, { rejectWithValue }) => {
     try {
@@ -44,13 +44,100 @@ export const ratingAdd = createAsyncThunk(
       });
 
       console.log(data)
-      console.log("response")
+      console.log("response -selfRating")
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred.");
     }
   }
 );
+
+export const fetchMyPeers = createAsyncThunk(
+  "rating/fetchMyPeers",
+  async ({ userId }, { rejectWithValue }) => {
+    console
+    try {
+     const { data } = await api.get("/peers-get", {
+        params: { userId },
+      });
+
+      console.log(data)
+      console.log("peers")
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred.");
+    }
+  }
+);
+export const fetchMyPeer = createAsyncThunk(
+  "rating/fetchMyPeer",
+  async ({ userId }, { rejectWithValue }) => {
+    console.log(userId)
+    console.log("userId")
+    try {
+     const { data } = await api.get("/get-peer", {
+        params: { userId },
+      });
+
+      console.log(data)
+      console.log("peer")
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred.");
+    }
+  }
+);
+
+
+export const fetchPeerRating = createAsyncThunk(
+  "rating/fetchPeerRating",
+  async ({ userId, quarter, year ,evaluatorID}, { rejectWithValue }) => {
+    try {
+      const {data} = await api.get("/peer-rating-get", {
+        params: { userId, quarter, year,evaluatorID },
+      });
+
+      console.log(data)
+      console.log("response -PeerRating")
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred.");
+    }
+  }
+);
+
+export const peerRatingAdd = createAsyncThunk(
+    "rating/peer-rating-add",
+    async ({ evaluatedUser, evaluator, roleOfEvaluator, category, ratings,quarter, year }, { rejectWithValue, fulfillWithValue, getState }) => {
+        const { token } = getState().auth;
+
+        const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+        };
+
+        try {
+        const payload = {
+            evaluatedUser,
+            evaluator,
+            roleOfEvaluator,
+            category,
+            ratings,
+            quarter, 
+            year
+        };
+
+        const { data } = await api.post("/rate-add", payload, config);
+        console.log(data)
+        return fulfillWithValue(data);
+        } catch (error) {
+        return rejectWithValue(error.response?.data || { message: "Network or server error" });
+        }
+    }
+  );
+
 // SPLACE_BS
 
 
@@ -697,6 +784,12 @@ export const ratingReducer = createSlice({
     totalCategories: 0,
     editError : false,
     editErrorMessage: "",
+
+
+    // NEW SHIT
+    myPeers : {},
+    myPeer : {},
+    peersRating : {}
   
     
   },
@@ -1027,6 +1120,20 @@ export const ratingReducer = createSlice({
               builder.addCase(ratingAdd.fulfilled, (state, payload) => {
                 state.loader = false;
                 state.successMessage = payload.payload.message;
+                state.selfRating = payload.payload.newRating;
+                // state.roles = [...state.roles, payload.payload.role];
+              });
+                builder.addCase(peerRatingAdd.pending, (state) => {
+                state.loader = true;
+              });
+              builder.addCase(peerRatingAdd.rejected, (state, payload) => {
+                state.loader = false;
+                state.errorMessage = payload.payload.error;
+              });
+              builder.addCase(peerRatingAdd.fulfilled, (state, payload) => {
+                state.loader = false;
+                state.successMessage = payload.payload.message;
+                state.peersRating = payload.payload.newRating;
                 // state.roles = [...state.roles, payload.payload.role];
               });
 
@@ -1045,8 +1152,50 @@ export const ratingReducer = createSlice({
                 console.log("payload")
                 state.loader = false
                 state.selfRating = payload.payload.rating;
-                // state.selfRating = payload.payload.dat;
-                // state.locations = payload.payload.locations;
+                });
+
+
+                builder.addCase(fetchMyPeers.pending, (state) => {
+                state.loader = true
+                });
+                builder.addCase(fetchMyPeers.rejected, (state, payload) => {
+                state.loader = false
+                state.errorMessage = payload.payload.error
+
+                });
+                builder.addCase(fetchMyPeers.fulfilled, (state, payload) => {
+                // state.category = payload.payload.message;
+                state.loader = false
+                state.myPeers = payload.payload.peers;
+                });
+
+
+
+                builder.addCase(fetchMyPeer.pending, (state) => {
+                state.loader = true
+                });
+                builder.addCase(fetchMyPeer.rejected, (state, payload) => {
+                state.loader = false
+                state.errorMessage = payload.payload.error
+
+                });
+                builder.addCase(fetchMyPeer.fulfilled, (state, payload) => {
+                // state.category = payload.payload.message;
+                state.loader = false
+                state.myPeer = payload.payload.peer;
+                });
+                builder.addCase(fetchPeerRating.pending, (state) => {
+                state.loader = true
+                });
+                builder.addCase(fetchPeerRating.rejected, (state, payload) => {
+                state.loader = false
+                state.errorMessage = payload.payload.error
+
+                });
+                builder.addCase(fetchPeerRating.fulfilled, (state, payload) => {
+                // state.category = payload.payload.message;
+                state.loader = false
+                state.peersRating = payload.payload.rating;
                 });
             // SPLACE BS
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const RatingDisplay = ({ rating, maxScore, textSize = "text-sm" , title}) => {
+const RatingDisplay = ({ rating, maxScore, textSize = "text-sm" , title,message}) => {
   const percentage = Math.min(100, (rating / maxScore) * 100);
 
   const getColor = (percentage) => {
@@ -33,7 +33,7 @@ const RatingDisplay = ({ rating, maxScore, textSize = "text-sm" , title}) => {
     <div className="text-slate-900 pl-3 text-wrap text-start w-9/12 pt-2">
         <h2 className='font-bold text-sm'>{title}</h2>
         <div className="text-start">
-            <p className='text-sm'>asdasdasd</p>
+            <p className='text-xs'>{message? `${message}`:`"No Comment"`}</p>
         </div>
     </div>
 

@@ -107,20 +107,9 @@ const handleSubmit = (e) => {
     comments: formData.get(`${id}_comments`) || "",
   }));
 
-
-  // console.log("Evaluation Submitted:", requestBody);
 console.log("asdsd")
   dispatch(ratingAdd( {evaluatedUser:userInfo._id, evaluator:userInfo._id, roleOfEvaluator: "self", category: userInfo.category.name, ratings:evaluationData, quarter, year}))
 
-  // Example fetch POST (optional)
-  // fetch('/api/rate', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(requestBody),
-  // });
-  
-
-  // alert("Evaluation submitted! Check console for details.");
 };
 
   const handleResetRating = (id) => {
@@ -168,10 +157,8 @@ const ratingsForSummary = Object.keys(savedRatingsMap).length > 0 ? savedRatings
             >
                 <h1 className="text-3xl text-start font-bold mb-2 text-slate-200">
                 SELF RATING 
-                <span> ({
-                  selfRating? 'DONE' : ''
-                })</span>
-               
+               <span>{Object.keys(selfRating).length > 0 ? '(DONE)' : ''}</span>
+
                 </h1>
 
                 {criteria.map(({ id, title, maxScore, desc }) => {
@@ -182,19 +169,19 @@ const ratingsForSummary = Object.keys(savedRatingsMap).length > 0 ? savedRatings
                 return (
                     <section
                     key={id}
-                    className="mb-10 border-b border-gray-300 pb-6 last:border-none bg-slate-300 p-4 rounded-md  relative"
+                    className="mb-10 border-b border-gray-300 pb-6 last:border-none bg-slate-200 p-4 rounded-md  relative shadow-2xl"
                     >
-                    <h2 className="font-semibold text-xl mb-2">{title}</h2>
+                    <h2 className="font-extrabold text-xl mb-2 text-slate-800">{title}</h2>
                     <p className="text-gray-700 mb-2 text-xs">{desc}</p>
-                    <p className="text-sm italic mb-3">
+                    <p className="text-xs italic mb-3">
                         Maximum Weighted Score: {maxScore}
                     </p>
 
                     <textarea
                         name={`${id}_comments`}
                         placeholder="Comments..."
-                        rows={3}
-                        className="w-full rounded-md border border-slate-800 p-2 mb-7 resize-none "
+                        rows={2}
+                        className="w-full rounded-md border-slate-800 p-2 mb-7 resize-none border-2"
                     ></textarea>
 
                     <div className="flex items-center space-x-1 select-none absolute bottom-6 inset-x-0 px-4 ">
@@ -253,7 +240,7 @@ const ratingsForSummary = Object.keys(savedRatingsMap).length > 0 ? savedRatings
                 <div className="text-center flex justify-start">
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-10 py-3 rounded-md hover:bg-blue-700 transition"
+                    className="bg-accent font-bold text-white px-10 py-3 rounded-md hover:bg-blue-700 transition"
                 >
                     Submit Evaluation
                 </button>
@@ -299,13 +286,16 @@ const ratingsForSummary = Object.keys(savedRatingsMap).length > 0 ? savedRatings
                         const displayScore = savedRating
                           ? savedRating.scoreWeighted
                           : getScaledScore(id, ratings[id] || 0);
-
+                         const displayMessage = savedRating
+                          ? savedRating.comments
+                          : '...'
                         return (
                           <div key={id} className="">
                             <RatingDisplay
                               rating={displayScore}
                               maxScore={maxScore}
                               title={title}
+                              message={displayMessage}
                             />
                           </div>
                         );

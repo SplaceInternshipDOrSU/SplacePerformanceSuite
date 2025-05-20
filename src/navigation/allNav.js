@@ -5,6 +5,7 @@ import {
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
+import { FaGrinStars } from "react-icons/fa";
 import React from "react";
 import { RiTeamFill } from "react-icons/ri";
 import { TbCategoryFilled } from "react-icons/tb";
@@ -99,6 +100,14 @@ export const allNav = [
     // icon: <AiFillDashboard />,
     category: "rankandfile",
     path: "/rank-and-file/self-rate/",
+  },
+  {
+    id: 4,
+    title: "To Rate",
+    icon: React.createElement(FaGrinStars),
+    // icon: <AiFillDashboard />,
+    category: "rankandfile",
+    path: "/rank-and-file/to-evaluate/",
   },
     // RANK AND FILE
 

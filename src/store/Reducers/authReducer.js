@@ -22,11 +22,6 @@ export const admin_login = createAsyncThunk(
   }
 );
 
-
-
-
-
-
 export const change_password = createAsyncThunk(
   "auth/change_password",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -72,7 +67,6 @@ export const change_password_seller = createAsyncThunk(
     }
   }
 );
-
 export const admin_changePassword = createAsyncThunk(
   "auth/trader_changePassword",
   async (info, { fulfillWithValue, rejectWithValue }) => {
@@ -86,9 +80,6 @@ export const admin_changePassword = createAsyncThunk(
     }
   }
 );
-
-
-
 export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -104,101 +95,6 @@ export const seller_login = createAsyncThunk(
     }
   }
 );
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async ({navigate,role}, { rejectWithValue, fulfillWithValue, getState }) => {
-//     const {token} = getState().auth
-//     const config = {
-//       headers : {
-//         Authorization: `Bearer ${token}`
-//       }
-//     }
-//     try {
-//       const { data } = await axios.get(`${baseURL}/api/logout`, config);
-//       console.log(data)
-//       // const { data } = await axios.get("/logout", config);
-//       localStorage.removeItem("accessToken");
-//       if(role === 'admin'){
-//         navigate('/admin/login')
-//       }else{
-//         navigate('/login')
-//       }
-//       return fulfillWithValue(data);
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
-
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async ({ navigate, role }, { rejectWithValue, fulfillWithValue, getState }) => {
-//     const { token } = getState().auth;
-
-//     if (!token) {
-//       return rejectWithValue({ message: "Token is missing" });
-//     }
-
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
-
-//     try {
-//       // Wait for the API response
-//       const { data } = await axios.post(`${baseURL}/api/logout`, config);
-//       console.log("Logout success:", data);
-
-//       // Remove token after the API call succeeds
-//       localStorage.removeItem("accessToken");
-
-//       // Perform navigation based on the role
-//       if (role === "admin") {
-//         navigate("/admin/login");
-//       } else {
-//         navigate("/login");
-//       }
-
-//       // Fulfill the thunk with the API response
-//       return fulfillWithValue(data);
-//     } catch (error) {
-//       console.error("Logout error:", error.response || error.message);
-//       return rejectWithValue(error.response?.data || { message: "Logout failed" });
-//     }
-//   }
-// );
-
-
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async ({ navigate, role }, { rejectWithValue, fulfillWithValue, getState }) => {
-//     const { token } = getState().auth;
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
-//     try {
-//       const { data } = await axios.get(`${baseURL}/api/logout`, config);
-//       console.log(data);
-//       localStorage.removeItem("accessToken");
-
-//       // Wait for API response and then add a delay before navigation
-//       await new Promise((resolve) => setTimeout(resolve, 3000)); // 1-second delay
-
-//       if (role === "admin") {
-//         navigate("/admin/login");
-//       } else {
-//         navigate("/login");
-//       }
-
-//       return fulfillWithValue(data);
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
 
 export const logout = createAsyncThunk(
   "auth/logout",
@@ -233,9 +129,7 @@ export const logout = createAsyncThunk(
   }
 );
 
-
 // USER ROUTES
-
 export const user_register = createAsyncThunk(
   "auth/user_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -274,11 +168,6 @@ export const user_login = createAsyncThunk(
   }
 );
 
-
-
-
-
-
 // TO BE REMOVED
 export const seller_register = createAsyncThunk(
   "auth/seller_register",
@@ -301,11 +190,6 @@ export const seller_register = createAsyncThunk(
     }
   }
 );
-
-
-
-
-
 
 export const trader_register = createAsyncThunk(
   "auth/trader_register",
@@ -330,27 +214,6 @@ export const trader_register = createAsyncThunk(
     }
   }
 );
-
-
-
-
-
-// export const seller_register = createAsyncThunk(
-//   "auth/seller_register",
-//   async (info, { rejectWithValue, fulfillWithValue }) => {
-//     try {
-//       console.log(info);
-//       const { data } = await api.post("/seller-register", info, {
-        // withCredentials: true,
-//       });
-//       localStorage.setItem("accessToken", data.token);
-//       return fulfillWithValue(data);
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
-
 
 export const profile_image_upload = createAsyncThunk(
   "auth/profile_image_upload",
@@ -418,8 +281,6 @@ export const association_image_upload = createAsyncThunk(
     }
   }
 );
-
-
 export const get_user_info = createAsyncThunk(
   "auth/get_user_info",
   async (_, { rejectWithValue, fulfillWithValue,getState }) => {
